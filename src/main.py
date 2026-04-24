@@ -44,6 +44,15 @@ def move_player(player, keys, speed):
     elif player["positionX"] + player["width"] > largura:
         player["positionX"] = (largura - player["width"])
 
+bullet = {
+    "positionX": 0.0, 
+    "positionY": 0.0,
+    "color": (255, 255, 255),
+    "width": 5,
+    "height": 10,
+}
+
+bullets = []
 
 rodando = True
 while rodando:
@@ -52,8 +61,15 @@ while rodando:
             rodando = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_F5:
-                print("Aumentando velocidade")
                 speed += 2
+            if event.key == pygame.K_SPACE:
+                nova_bala = bullet.copy()
+
+                nova_bala["positionX"] = player["positionX"]
+                nova_bala["positionY"] = player["positionY"]
+                bullets.append(nova_bala)
+            
+
             
 
     keys = pygame.key.get_pressed()
@@ -61,6 +77,10 @@ while rodando:
     move_player(player, keys, speed)
 
     tela.fill((30, 30, 30))
+
+    for b in bullets:
+        b["positionY"] -= 5
+        pygame.draw.rect(tela, b["color"], (b["positionX"], b["positionY"], b["width"], b["height"]))
 
     pygame.draw.rect(tela, player["color"], (player["positionX"], player["positionY"], player["width"], player["height"]))
 
