@@ -21,6 +21,8 @@ pygame.init()
 tela = pygame.display.set_mode((largura, altura))
 clock = pygame.time.Clock()
 
+font = pygame.font.SysFont("Arial" , 18 , bold = True)
+
 pygame.display.set_caption("Chicken Invaders")
 
 
@@ -44,6 +46,12 @@ def move_player(player, keys, speed):
     elif player["positionX"] + player["width"] > largura:
         player["positionX"] = (largura - player["width"])
 
+
+def fps_counter(window: pygame.Surface, clock: pygame.time.Clock):
+    fps = "FPS: " + str(int(clock.get_fps()))
+    fps_t = font. render(fps , 1, pygame.Color("RED"))
+    window.blit(fps_t,(0,0))
+
 bullet = {
     "positionX": 0.0, 
     "positionY": 0.0,
@@ -65,7 +73,7 @@ while rodando:
             if event.key == pygame.K_SPACE:
                 nova_bala = bullet.copy()
 
-                nova_bala["positionX"] = player["positionX"]
+                nova_bala["positionX"] = player["positionX"] + (player["width"] / 2)
                 nova_bala["positionY"] = player["positionY"]
                 bullets.append(nova_bala)
             
@@ -81,11 +89,15 @@ while rodando:
     for b in bullets:
         b["positionY"] -= 5
         pygame.draw.rect(tela, b["color"], (b["positionX"], b["positionY"], b["width"], b["height"]))
+        if b["positionY"] < 0:
+            bullets.remove(b)
 
     pygame.draw.rect(tela, player["color"], (player["positionX"], player["positionY"], player["width"], player["height"]))
 
+    fps_counter(tela, clock)
     pygame.display.flip()
     clock.tick(fps)
+
 
 pygame.quit()   
 
