@@ -2,6 +2,6 @@
 from abc import ABC
 
 
-class Entidade(ABC):
+class Entity(ABC):
     positionX: float
     positionY: float

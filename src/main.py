@@ -1,9 +1,6 @@
 import pygame
 
-largura = 800
-altura = 600
-speed = 5
-fps = 60
+from constants.constants import FPS, PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH
 
 player = {
     "positionX": 0.0, 
@@ -13,12 +10,12 @@ player = {
     "color": (255, 0, 0)
 }
 
-player["positionX"] = (largura - player["width"]) / 2
-player["positionY"] = altura - player["height"]
+player["positionX"] = (SCREEN_WIDTH - player["width"]) / 2
+player["positionY"] = SCREEN_HEIGHT - player["height"]
 
 pygame.init()
 
-tela = pygame.display.set_mode((largura, altura))
+tela = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
 
 font = pygame.font.SysFont("Arial" , 18 , bold = True)
@@ -26,25 +23,26 @@ font = pygame.font.SysFont("Arial" , 18 , bold = True)
 pygame.display.set_caption("Chicken Invaders")
 
 
-def move_player(player, keys, speed):
+def move_player(player, keys, speed: int, dt: float):
     # limita a area jogavel
     if keys[pygame.K_LEFT] and player["positionX"] > 0:
-        player["positionX"] -= speed
+        print(speed * dt)
+        player["positionX"] -= speed * dt
 
-    if keys[pygame.K_RIGHT] and (player["positionX"] + player["width"]) < largura:
-        player["positionX"] += speed
+    if keys[pygame.K_RIGHT] and (player["positionX"] + player["width"]) < SCREEN_WIDTH:
+        player["positionX"] += speed * dt
 
     if keys[pygame.K_UP] and player["positionY"] > 0:
-        player["positionY"] -= speed
+        player["positionY"] -= speed * dt
 
-    if keys[pygame.K_DOWN] and (player["positionY"] + player["height"] < altura):
-        player["positionY"] += speed
+    if keys[pygame.K_DOWN] and (player["positionY"] + player["height"] < SCREEN_HEIGHT):
+        player["positionY"] += speed * dt
 
     # reseta a posicao do player caso ele ultrapasse os limites
     if (player["positionX"] < 0):
         player["positionX"] = 0
-    elif player["positionX"] + player["width"] > largura:
-        player["positionX"] = (largura - player["width"])
+    elif player["positionX"] + player["width"] > SCREEN_WIDTH:
+        player["positionX"] = (SCREEN_WIDTH - player["width"])
 
 
 def fps_counter(window: pygame.Surface, clock: pygame.time.Clock):
@@ -69,7 +67,7 @@ while rodando:
             rodando = False
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_F5:
-                speed += 2
+                PLAYER_SPEED += 2
             if event.key == pygame.K_SPACE:
                 nova_bala = bullet.copy()
 
@@ -78,11 +76,12 @@ while rodando:
                 bullets.append(nova_bala)
             
 
+    dt = clock.tick(FPS) / 1000.0
             
 
     keys = pygame.key.get_pressed()
 
-    move_player(player, keys, speed)
+    move_player(player, keys, PLAYER_SPEED, dt)
 
     tela.fill((30, 30, 30))
 
@@ -96,7 +95,6 @@ while rodando:
 
     fps_counter(tela, clock)
     pygame.display.flip()
-    clock.tick(fps)
 
 
 pygame.quit()   
