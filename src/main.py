@@ -26,7 +26,6 @@ pygame.display.set_caption("Chicken Invaders")
 def move_player(player, keys, speed: int, dt: float):
     # limita a area jogavel
     if keys[pygame.K_LEFT] and player["positionX"] > 0:
-        print(speed * dt)
         player["positionX"] -= speed * dt
 
     if keys[pygame.K_RIGHT] and (player["positionX"] + player["width"]) < SCREEN_WIDTH:
@@ -47,7 +46,7 @@ def move_player(player, keys, speed: int, dt: float):
 
 def fps_counter(window: pygame.Surface, clock: pygame.time.Clock):
     fps = "FPS: " + str(int(clock.get_fps()))
-    fps_t = font. render(fps , 1, pygame.Color("RED"))
+    fps_t = font.render(fps , 1, pygame.Color("RED"))
     window.blit(fps_t,(0,0))
 
 bullet = {
@@ -60,7 +59,10 @@ bullet = {
 
 bullets = []
 
+JOGO_PAUSADO_TEXT = font.render("JOGO PAUSADO!" , 1, pygame.Color("RED"))
+
 rodando = True
+paused = False
 while rodando:
     for event in pygame.event.get():
         if event.type == pygame.QUIT:
@@ -68,6 +70,8 @@ while rodando:
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_F5:
                 PLAYER_SPEED += 2
+            if event.key == pygame.K_p:
+                paused = not paused
             if event.key == pygame.K_SPACE:
                 nova_bala = bullet.copy()
 
@@ -81,17 +85,26 @@ while rodando:
 
     keys = pygame.key.get_pressed()
 
-    move_player(player, keys, PLAYER_SPEED, dt)
-
     tela.fill((30, 30, 30))
 
-    for b in bullets:
-        b["positionY"] -= 5
-        pygame.draw.rect(tela, b["color"], (b["positionX"], b["positionY"], b["width"], b["height"]))
-        if b["positionY"] < 0:
-            bullets.remove(b)
+    if paused:
+        retangulo_texto = JOGO_PAUSADO_TEXT.get_rect()
+        retangulo_texto.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+        tela.blit(JOGO_PAUSADO_TEXT,  retangulo_texto)
+        pass
+    else:
+        move_player(player, keys, PLAYER_SPEED, dt)
 
-    pygame.draw.rect(tela, player["color"], (player["positionX"], player["positionY"], player["width"], player["height"]))
+        for b in bullets:
+            b["positionY"] -= 5
+            pygame.draw.rect(tela, b["color"], (b["positionX"], b["positionY"], b["width"], b["height"]))
+            if b["positionY"] < 0:
+                bullets.remove(b)
+
+        pygame.draw.rect(tela, player["color"], (player["positionX"], player["positionY"], player["width"], player["height"]))
+
+
+
 
     fps_counter(tela, clock)
     pygame.display.flip()
