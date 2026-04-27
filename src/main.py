@@ -1,16 +1,22 @@
+from typing import List
+
 import pygame
 
 from constants.constants import DT_DIVISOR, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
+from entities.Enemy import Enemy
 from entities.Player import Player
 from utils.utils import fps_counter
 
-all_sprites = pygame.sprite.Group()
-bullets: pygame.sprite.Group = pygame.sprite.Group()
+pygame.init()
 
+all_sprites = pygame.sprite.Group()
+bullets = pygame.sprite.Group()
+enemies = pygame.sprite.Group()
+
+enemy = Enemy(300, 0)
 player = Player((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 100)
 all_sprites.add(player)
-
-pygame.init()
+enemies.add(enemy)
 
 window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
 clock = pygame.time.Clock()
@@ -20,6 +26,11 @@ font = pygame.font.SysFont("Arial" , 18 , bold = True)
 pygame.display.set_caption("Chicken Invaders")
 
 JOGO_PAUSADO_TEXT = font.render("JOGO PAUSADO!" , 1, pygame.Color("RED"))
+
+music = pygame.mixer.Sound('./src/sounds/space_heroes.ogg')
+
+music.set_volume(0.2)
+music.play(100)
 
 rodando = True
 paused = False
@@ -49,6 +60,19 @@ while rodando:
         bullets.update(dt)
         all_sprites.draw(window)
         bullets.draw(window)
+        enemies.draw(window)
+        hits = pygame.sprite.groupcollide(bullets, enemies, True, False)
+        for _, enemy_list in hits.items():
+            enemy_list: List[Enemy]
+            for enemy in enemy_list:
+                enemy.take_damage()
+        if len(enemies) == 0:
+            enemies.add(Enemy(100, 0))
+            enemies.add(Enemy(300, 0))
+            enemies.add(Enemy(500, 0))
+
+            
+
 
 
     fps_counter(window, clock, font)
