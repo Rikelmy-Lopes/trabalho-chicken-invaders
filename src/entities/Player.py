@@ -42,6 +42,7 @@ class Player(Entity):
 
 
     def shoot(self, bullets: pygame.sprite.Group):
-        new_bullet = Bullet(self.rect.centerx, self.rect.top)
-        bullets.add(new_bullet)
-        self.shoot_sound.play()
+        if (len(bullets) == 0):
+            new_bullet = Bullet(self.rect.centerx, self.rect.top)
+            bullets.add(new_bullet)
+            self.shoot_sound.play()

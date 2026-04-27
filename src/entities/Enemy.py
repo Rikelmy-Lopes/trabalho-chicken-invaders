@@ -15,8 +15,8 @@ class Enemy(Entity):
         self.health = 100
         self.chicken_death = pygame.mixer.Sound('./src/sounds/chicken_death.mp3')
 
-    def take_damage(self):
-        self.health -= 20
+    def receive_damage(self, amount = 100):
+        self.health -= amount
         if self.health <= 0:
             self.chicken_death.play()
             self.kill()
