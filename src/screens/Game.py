@@ -11,10 +11,7 @@ from utils.utils import fps_counter
 
 
 class Game:
-
     def __init__(self) -> None:
-        pygame.init()
-        pygame.display.set_caption("Chicken Invaders")
         self.music = pygame.mixer.Sound('./src/sounds/space_heroes.ogg')
         self.font = pygame.font.SysFont("Arial" , 18 , bold = True)
 
@@ -43,6 +40,8 @@ class Game:
                         self.player.speed += 20
                     if event.key == pygame.K_p:
                         self.paused = not self.paused
+                    if event.key == pygame.K_ESCAPE:
+                        self.running = False
                     if event.key == pygame.K_SPACE:
                         self.player.shoot(self.bullets)
             
@@ -53,7 +52,11 @@ class Game:
             if self.paused:    
                 retangulo_texto = self.JOGO_PAUSADO_TEXT.get_rect()
                 retangulo_texto.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+                self.all_sprites.draw(self.window)
+                self.bullets.draw(self.window)
+                self.enemies.draw(self.window)
                 self.window.blit(self.JOGO_PAUSADO_TEXT,  retangulo_texto)
+                
             else:
                 self.all_sprites.update(dt)
                 self.bullets.update(dt)
@@ -72,5 +75,4 @@ class Game:
 
             fps_counter(self.window, self.clock, self.font)
             pygame.display.flip()
-        pygame.quit()
 

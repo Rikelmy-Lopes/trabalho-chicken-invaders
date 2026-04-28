@@ -1,6 +1,3 @@
-from screens.Game import Game
+from screens.Menu import Menu
 
-Game().run()
-
-
-
+Menu().run()
