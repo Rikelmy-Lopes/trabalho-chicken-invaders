@@ -30,8 +30,6 @@ class Game:
     def draw(self):
         dt = self.clock.tick(FPS) / DT_DIVISOR
 
-        self.window.fill((30, 30, 30))
-
         if self.paused:    
             retangulo_texto = self.JOGO_PAUSADO_TEXT.get_rect()
             retangulo_texto.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)

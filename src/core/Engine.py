@@ -19,6 +19,9 @@ class Engine:
         self.font_game = pygame.font.SysFont("Arial" , 18 , bold = True)
         self.window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = pygame.time.Clock()
+        self.fundo = pygame.image.load('./src/images/space.png').convert()
+        self.fundo = pygame.transform.scale(self.fundo, (SCREEN_WIDTH, SCREEN_HEIGHT))
+
         self.running = True
         self.state = "MENU"
         self.menu = Menu(self.window, self.clock, self.font_menu)
@@ -26,9 +29,10 @@ class Engine:
 
     
     def run(self):
-        self.music.set_volume(0.01)
+        self.music.set_volume(0.1)
         self.music.play(loops=-1)
         while self.running:
+            self.window.blit(self.fundo, (0, 0))
             if self.state == "MENU":
                 if self.game is not None:
                     self.menu.selected_difficulty = None
@@ -36,7 +40,6 @@ class Engine:
                 self.state = self.menu.update()
                 self.menu.draw()
             elif self.state == "GAME":
-                print(self.menu.selected_difficulty)
                 if self.game is None:
                     self.game = Game(self.window, self.clock, self.font_game)
                 self.state = self.game.update()

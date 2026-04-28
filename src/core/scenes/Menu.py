@@ -25,15 +25,12 @@ class Menu:
         self.clock = pygame.time.Clock()
         self.selection_highlight_menu_sound = pygame.mixer.Sound('./src/sounds/vgmenuhighlight.ogg')
         self.selection_menu_sound = pygame.mixer.Sound('./src/sounds/menu_selection.wav')
-        self.fundo = pygame.image.load('./src/images/space.png').convert()
-        self.fundo = pygame.transform.scale(self.fundo, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
 
         self.selected = 1
         self.selected_difficulty = None
 
     def draw(self):
-        self.window.blit(self.fundo, (0, 0))
         if self.selected == 1 and self.selected_difficulty is not None:
             self.__draw_menu_difficulty()
         else:
