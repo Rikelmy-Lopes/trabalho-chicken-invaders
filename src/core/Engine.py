@@ -26,7 +26,7 @@ class Engine:
 
     
     def run(self):
-        self.music.set_volume(0.2)
+        self.music.set_volume(0.01)
         self.music.play(loops=-1)
         while self.running:
             if self.state == "MENU":
