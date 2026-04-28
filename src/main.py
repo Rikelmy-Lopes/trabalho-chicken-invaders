@@ -1,3 +1,4 @@
-from screens.Menu import Menu
+from core.Engine import Engine
 
-Menu().run()
+
+Engine().run()

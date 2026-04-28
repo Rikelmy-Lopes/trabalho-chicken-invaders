@@ -1,6 +1,6 @@
 
 from constants.constants import BULLET_SPEED
-from entities.Entity import Entity
+from core.entities.Entity import Entity
 
 WHITE_COLOR = (255, 255, 255)
 

@@ -3,17 +3,19 @@
 import pygame
 
 from constants.constants import PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH
-from entities.Bullet import Bullet
-from entities.Entity import Entity
+from core.entities.Bullet import Bullet
+from core.entities.Entity import Entity
 
 BLUE_COLOR = (0, 0, 255)
 
 
 
 class Player(Entity):
+    PLAYER_WIDTH = 100
+    PLAYER_HEIGHT = 100
 
     def __init__(self, x, y, image_path=None):
-        super().__init__(x, y, BLUE_COLOR, (100, 100), image_path)
+        super().__init__(x, y, BLUE_COLOR, (self.PLAYER_WIDTH, self.PLAYER_HEIGHT), image_path)
         self.speed = PLAYER_SPEED
         self.health = 100
         self.shoot_sound = pygame.mixer.Sound('./src/sounds/laser_shoot.wav')

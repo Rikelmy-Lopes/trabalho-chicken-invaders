@@ -3,7 +3,7 @@
 
 import pygame
 
-from entities.Entity import Entity
+from core.entities.Entity import Entity
 
 RED_COLOR = (255, 0, 0)
 
