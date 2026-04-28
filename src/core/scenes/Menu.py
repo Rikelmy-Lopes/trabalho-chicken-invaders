@@ -84,6 +84,8 @@ class Menu:
                 if event.key == pygame.K_RETURN:
                     if self.selected == 1 and self.selected_difficulty is None:
                         self.selected_difficulty = 3
+                    elif self.selected == 1 and self.selected_difficulty is not None:
+                        return "GAME"
                     elif self.selected == 2:
                         return "EXIT"
                     self.selection_menu_sound.play()

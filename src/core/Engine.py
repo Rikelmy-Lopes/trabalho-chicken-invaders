@@ -30,11 +30,13 @@ class Engine:
         self.music.play(loops=-1)
         while self.running:
             if self.state == "MENU":
+                if self.game is not None:
+                    self.menu.selected_difficulty = None
+                    self.game = None
                 self.state = self.menu.update()
                 self.menu.draw()
-                if self.game is not None:
-                    self.game = None
             elif self.state == "GAME":
+                print(self.menu.selected_difficulty)
                 if self.game is None:
                     self.game = Game(self.window, self.clock, self.font_game)
                 self.state = self.game.update()
