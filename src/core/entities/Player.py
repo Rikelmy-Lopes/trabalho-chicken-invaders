@@ -1,6 +1,8 @@
 
 
 import pygame
+from pygame.mixer import Sound
+from pygame.sprite import Group
 
 from constants.constants import PLAYER_SPEED, SCREEN_HEIGHT, SCREEN_WIDTH
 from core.entities.Bullet import Bullet
@@ -18,7 +20,7 @@ class Player(Entity):
         super().__init__(x, y, BLUE_COLOR, (self.PLAYER_WIDTH, self.PLAYER_HEIGHT), image_path)
         self.speed = PLAYER_SPEED
         self.health = 100
-        self.shoot_sound = pygame.mixer.Sound('./src/sounds/laser_shoot.wav')
+        self.shoot_sound = Sound('./src/sounds/laser_shoot.wav')
 
 
     def update(self, dt: float) -> None:
@@ -43,7 +45,7 @@ class Player(Entity):
             self.rect.x = (SCREEN_WIDTH - self.rect.width)
 
 
-    def shoot(self, bullets: pygame.sprite.Group):
+    def shoot(self, bullets: Group):
         if (len(bullets) == 0):
             new_bullet = Bullet(self.rect.centerx, self.rect.top)
             bullets.add(new_bullet)

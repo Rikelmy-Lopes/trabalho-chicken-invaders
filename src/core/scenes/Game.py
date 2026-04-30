@@ -3,6 +3,10 @@
 from typing import List
 
 import pygame
+from pygame import Surface
+from pygame.time import Clock
+from pygame.font import Font
+from pygame.sprite import Group
 
 from constants.constants import DT_DIVISOR, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
 from core.entities.Enemy import Enemy
@@ -11,7 +15,7 @@ from utils.utils import fps_counter
 
 
 class Game:
-    def __init__(self, window: pygame.Surface, clock: pygame.time.Clock, font: pygame.font.Font) -> None:
+    def __init__(self, window: Surface, clock: Clock, font: Font) -> None:
         self.window = window
         self.clock = clock
         self.font = font
@@ -19,9 +23,9 @@ class Game:
         self.running = True
         self.paused = False
         self.player = Player((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 100)
-        self.all_sprites = pygame.sprite.Group()
-        self.bullets = pygame.sprite.Group()
-        self.enemies = pygame.sprite.Group()
+        self.all_sprites = Group()
+        self.bullets = Group()
+        self.enemies = Group()
 
         self.all_sprites.add(self.player)
         self.enemies.add(Enemy(300, 0))
