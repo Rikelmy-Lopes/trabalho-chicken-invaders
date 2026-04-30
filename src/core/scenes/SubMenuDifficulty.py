@@ -9,6 +9,7 @@ from pygame.sprite import Group
 from pygame.event import Event
 
 from constants.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SELECTED_COLOR_MENU, UNSELECTED_COLOR_MENU
+from core.State import State
 
 
 VERY_HARD = 'QUERO GALINHADA (MUITO DIFICIL)'
@@ -28,7 +29,7 @@ class SubMenuDifficulty:
         self.selection_highlight_menu_sound = selection_highlight_menu_sound
         self.selection_menu_sound = selection_menu_sound
         self.all_sprites = Group()
-        self.selected_difficulty = None
+        self.selected_difficulty = 3
 
 
 
@@ -56,15 +57,27 @@ class SubMenuDifficulty:
 
 
     def select_menu_difficulty(self, event: Event):
-        if event.key == pygame.K_DOWN and self.selected_difficulty is not None:
+        if event.key == pygame.K_DOWN:
             if self.selected_difficulty == 4:
                 self.selected_difficulty = 1
             else:
                 self.selected_difficulty += 1
             self.selection_highlight_menu_sound.play()
-        if event.key == pygame.K_UP and self.selected_difficulty is not None:
+        if event.key == pygame.K_UP:
             if self.selected_difficulty == 1:
                 self.selected_difficulty = 4
             else:
                 self.selected_difficulty -= 1
             self.selection_highlight_menu_sound.play()
+    
+     
+    def update(self):
+        for event in pygame.event.get():
+            if event.type == pygame.KEYDOWN:
+                self.select_menu_difficulty(event)
+                if event.key == pygame.K_RETURN:
+                    self.selection_menu_sound.play()
+                    return State.GAME
+                if event.key == pygame.K_ESCAPE:
+                    return State.MENU
+        return State.SUBMENU

@@ -9,6 +9,7 @@ from pygame.font import Font
 from pygame.sprite import Group
 
 from constants.constants import DT_DIVISOR, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
+from core.State import State
 from core.entities.Enemy import Enemy
 from core.entities.Player import Player
 from utils.utils import fps_counter
@@ -63,14 +64,14 @@ class Game:
     def update(self):
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
-                return "EXIT"
+                return State.EXIT
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_F5:
                     self.player.speed += 20
                 if event.key == pygame.K_p:
                     self.paused = not self.paused
                 if event.key == pygame.K_ESCAPE:
-                    return "MENU"
+                    return State.MENU
                 if event.key == pygame.K_SPACE:
                     self.player.shoot(self.bullets)
-        return "GAME"
+        return State.GAME

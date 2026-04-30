@@ -5,11 +5,10 @@ import sys
 import pygame
 from pygame.time import Clock
 from pygame.mixer import Sound
-
 from constants.constants import FPS, SCREEN_HEIGHT, SCREEN_WIDTH
+from core.State import State
 from core.scenes.Game import Game
 from core.scenes.Menu import Menu
-
 
 class Engine:
     def __init__(self) -> None:
@@ -25,7 +24,7 @@ class Engine:
         self.fundo = pygame.transform.scale(self.fundo, (SCREEN_WIDTH, SCREEN_HEIGHT))
 
         self.running = True
-        self.state = "MENU"
+        self.state: State = State.MENU
         self.menu = Menu(self.window, self.clock, self.font_menu)
         self.game = None
 
@@ -35,18 +34,18 @@ class Engine:
         self.music.play(loops=-1)
         while self.running:
             self.window.blit(self.fundo, (0, 0))
-            if self.state == "MENU":
+            if self.state == State.MENU or self.state == State.SUBMENU:
                 if self.game is not None:
-                    self.menu.sub_menu_difficulty.selected_difficulty = None
                     self.game = None
+                    self.menu.state = State.MENU
                 self.state = self.menu.update()
                 self.menu.draw()
-            elif self.state == "GAME":
+            elif self.state == State.GAME:
                 if self.game is None:
                     self.game = Game(self.window, self.clock, self.font_game)
                 self.state = self.game.update()
                 self.game.draw()
-            elif self.state == "EXIT":
+            elif self.state == State.EXIT:
                 self.running = False
             
             pygame.display.flip()

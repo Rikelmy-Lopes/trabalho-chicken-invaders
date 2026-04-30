@@ -9,6 +9,7 @@ from pygame.sprite import Group
 from pygame.event import Event
 
 from constants.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SELECTED_COLOR_MENU, UNSELECTED_COLOR_MENU
+from core.State import State
 from core.scenes.SubMenuDifficulty import SubMenuDifficulty
 
 START = 'JOGAR'
@@ -28,12 +29,13 @@ class Menu:
         self.sub_menu_difficulty = SubMenuDifficulty(window, clock, font, self.selection_highlight_menu_sound, self.selection_menu_sound)
 
         self.selected = 1
+        self.state = State.MENU
 
     def draw(self):
-        if self.selected == 1 and self.sub_menu_difficulty.selected_difficulty is not None:
-            self.sub_menu_difficulty.draw_menu()
-        else:
+        if self.state == State.MENU:
             self.__draw_menu()
+        else:
+            self.sub_menu_difficulty.draw_menu()
 
     def __draw_menu(self):
         color_start = self.SELECTED_COLOR if self.selected == 1 else self.UNSELECTED_COLOR
@@ -48,35 +50,33 @@ class Menu:
         self.window.blit(surf_start, rect_start)
         self.window.blit(surf_quit, rect_quit)
 
-    def update(self) -> str:
-        for event in pygame.event.get():
-            if event.type == pygame.QUIT:
-                return "EXIT"
-            if event.type == pygame.KEYDOWN:
-                self.select_menu(event)
-                self.sub_menu_difficulty.select_menu_difficulty(event)
-                if event.key == pygame.K_RETURN:
-                    if self.selected == 1 and self.sub_menu_difficulty.selected_difficulty is None:
-                        self.sub_menu_difficulty.selected_difficulty = 3
-                    elif self.selected == 1 and self.sub_menu_difficulty.selected_difficulty is not None:
-                        return "GAME"
-                    elif self.selected == 2:
-                        return "EXIT"
-                    self.selection_menu_sound.play()
-                if event.key == pygame.K_ESCAPE and self.sub_menu_difficulty.selected_difficulty is not None:
-                    self.sub_menu_difficulty.selected_difficulty = None
-                    self.selection_menu_sound.play()
+    def update(self):
+        if self.state == State.MENU:
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    return State.EXIT
+                if event.type == pygame.KEYDOWN:
+                    self.select_menu(event)
+                    if event.key == pygame.K_RETURN:
+                        if self.selected == 1:
+                            self.state = State.SUBMENU
+                        elif self.selected == 2:
+                            return State.EXIT
+                        self.selection_menu_sound.play()
+        else:
+            self.state = self.sub_menu_difficulty.update()
+            return self.state
                     
-        return "MENU"
+        return State.MENU
     
     def select_menu(self, event: Event):
-        if event.key == pygame.K_DOWN and self.sub_menu_difficulty.selected_difficulty is None:
+        if event.key == pygame.K_DOWN:
             if self.selected == 2:
                 self.selected = 1
             else:
                 self.selected += 1
             self.selection_highlight_menu_sound.play()
-        if event.key == pygame.K_UP and self.sub_menu_difficulty.selected_difficulty is None:
+        if event.key == pygame.K_UP:
             if self.selected == 1:
                 self.selected = 2
             else:
