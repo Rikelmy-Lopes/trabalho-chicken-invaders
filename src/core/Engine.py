@@ -9,7 +9,8 @@ from constants.constants import FPS, SCREEN_HEIGHT, SCREEN_WIDTH
 from core.State import State
 from core.scenes.Game import Game
 from core.scenes.Menu import Menu
-from core.scenes.MenuDifficulty import SubMenuDifficulty
+from core.scenes.MenuDifficulty import MenuDifficulty
+from core.scenes.Scene import Scene
 
 
 class Engine:
@@ -26,12 +27,13 @@ class Engine:
         self.clock = Clock()
         self.fundo = pygame.image.load('./src/images/space.png').convert()
         self.fundo = pygame.transform.scale(self.fundo, (SCREEN_WIDTH, SCREEN_HEIGHT))
-
         self.running = True
         self.state: State = State.MENU
-        self.menu = Menu(self.window, self.clock, self.font_menu, self.selection_highlight_menu_sound, self.selection_menu_sound)
-        self.menu_difficulty = SubMenuDifficulty(self.window, self.clock, self.font_menu, self.selection_highlight_menu_sound, self.selection_menu_sound)
-        self.game = None
+        self.scenes: dict[State, Scene] = {
+            State.MENU: Menu(self.window, self.clock, self.font_menu, self.selection_highlight_menu_sound, self.selection_menu_sound),
+            State.SUBMENU: MenuDifficulty(self.window, self.clock, self.font_menu, self.selection_highlight_menu_sound, self.selection_menu_sound),
+            State.GAME: Game(self.window, self.clock, self.font_game)
+        }
 
     
     def run(self):
@@ -40,19 +42,13 @@ class Engine:
         while self.running:
             self.window.blit(self.fundo, (0, 0))
             events = pygame.event.get()
+
+            self.scenes[self.state].draw()
+            self.state = self.scenes[self.state].update(events)
+
             if self.state == State.MENU:
-                if self.game is not None:
-                    self.game = None
-                self.state = self.menu.update(events)
-                self.menu.draw()
-            elif self.state == State.SUBMENU:
-                self.state = self.menu_difficulty.update(events)
-                self.menu_difficulty.draw()
-            elif self.state == State.GAME:
-                if self.game is None:
-                    self.game = Game(self.window, self.clock, self.font_game)
-                self.state = self.game.update(events)
-                self.game.draw()
+                if self.scenes[State.GAME] is not None:
+                    self.scenes[State.GAME].reset()
             elif self.state == State.EXIT:
                 self.running = False
             

@@ -12,3 +12,7 @@ class Scene(ABC):
     @abstractmethod
     def update(self, events: list[Event]) -> State:
         pass
+
+    @abstractmethod
+    def reset(self) -> None:
+        pass

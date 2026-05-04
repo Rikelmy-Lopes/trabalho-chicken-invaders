@@ -53,10 +53,11 @@ class Menu(Scene):
                 self.select_menu(event)
                 if event.key == pygame.K_RETURN:
                     if self.selected == 1:
+                        self.selection_menu_sound.play()
                         return State.SUBMENU
                     elif self.selected == 2:
+                        self.selection_menu_sound.play()
                         return State.EXIT
-                    self.selection_menu_sound.play()
         return State.MENU
     
     def select_menu(self, event: Event):
@@ -72,3 +73,6 @@ class Menu(Scene):
             else:
                 self.selected -= 1
             self.selection_highlight_menu_sound.play()
+
+    def reset(self) -> None:
+        pass

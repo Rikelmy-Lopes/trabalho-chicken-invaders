@@ -19,7 +19,7 @@ NORMAL = 'NORMAL'
 EASY = 'FACIL'
 
 
-class SubMenuDifficulty(Scene):
+class MenuDifficulty(Scene):
     SELECTED_COLOR = SELECTED_COLOR_MENU
     UNSELECTED_COLOR = UNSELECTED_COLOR_MENU
 
@@ -82,5 +82,10 @@ class SubMenuDifficulty(Scene):
                     self.selection_menu_sound.play()
                     return State.GAME
                 if event.key == pygame.K_ESCAPE:
+                    self.selection_menu_sound.play()
                     return State.MENU
         return State.SUBMENU
+    
+
+    def reset(self) -> None:
+        pass

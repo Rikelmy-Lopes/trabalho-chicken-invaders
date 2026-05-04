@@ -23,7 +23,6 @@ class Game(Scene):
         self.clock = clock
         self.font = font
 
-        self.running = True
         self.paused = False
         self.player = Player((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 100)
         self.all_sprites = Group()
@@ -77,3 +76,12 @@ class Game(Scene):
                 if event.key == pygame.K_SPACE:
                     self.player.shoot(self.bullets)
         return State.GAME
+    
+    def reset(self):
+        self.player = Player((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 100)
+        self.all_sprites = Group()
+        self.bullets = Group()
+        self.enemies = Group()
+
+        self.all_sprites.add(self.player)
+        self.enemies.add(Enemy(300, 0))
