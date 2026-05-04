@@ -7,6 +7,7 @@ from pygame import Surface
 from pygame.time import Clock
 from pygame.font import Font
 from pygame.sprite import Group
+from pygame.event import Event
 
 from constants.constants import DT_DIVISOR, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
 from core.State import State
@@ -61,8 +62,8 @@ class Game:
 
         fps_counter(self.window, self.clock, self.font)
 
-    def update(self):
-        for event in pygame.event.get():
+    def update(self, events: list[Event]):
+        for event in events:
             if event.type == pygame.QUIT:
                 return State.EXIT
             if event.type == pygame.KEYDOWN:

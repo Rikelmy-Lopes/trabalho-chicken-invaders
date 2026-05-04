@@ -33,7 +33,7 @@ class SubMenuDifficulty:
 
 
 
-    def draw_menu(self):
+    def draw(self):
         color_very_hard = self.SELECTED_COLOR if self.selected_difficulty == 1 else self.UNSELECTED_COLOR
         color_hard = self.SELECTED_COLOR if self.selected_difficulty == 2 else self.UNSELECTED_COLOR
         color_normal = self.SELECTED_COLOR if self.selected_difficulty == 3 else self.UNSELECTED_COLOR
@@ -71,8 +71,10 @@ class SubMenuDifficulty:
             self.selection_highlight_menu_sound.play()
     
      
-    def update(self):
-        for event in pygame.event.get():
+    def update(self, events: list[Event]):
+        for event in events:
+            if event.type == pygame.QUIT:
+                return State.EXIT
             if event.type == pygame.KEYDOWN:
                 self.select_menu_difficulty(event)
                 if event.key == pygame.K_RETURN:

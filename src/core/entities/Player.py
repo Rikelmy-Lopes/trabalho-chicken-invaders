@@ -21,6 +21,7 @@ class Player(Entity):
         self.speed = PLAYER_SPEED
         self.health = 100
         self.shoot_sound = Sound('./src/sounds/laser_shoot.wav')
+        self.shoot_sound.set_volume(0.5)
 
 
     def update(self, dt: float) -> None:
