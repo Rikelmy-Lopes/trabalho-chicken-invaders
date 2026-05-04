@@ -16,8 +16,8 @@ class Player(Entity):
     PLAYER_WIDTH = 100
     PLAYER_HEIGHT = 100
 
-    def __init__(self, x, y, image_path=None):
-        super().__init__(x, y, BLUE_COLOR, (self.PLAYER_WIDTH, self.PLAYER_HEIGHT), image_path)
+    def __init__(self, x, y):
+        super().__init__(x, y, BLUE_COLOR, (self.PLAYER_WIDTH, self.PLAYER_HEIGHT), './src/images/spaceship.png', 2)
         self.speed = PLAYER_SPEED
         self.health = 100
         self.shoot_sound = Sound('./src/sounds/laser_shoot.wav')
