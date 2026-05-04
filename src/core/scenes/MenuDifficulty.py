@@ -10,6 +10,7 @@ from pygame.event import Event
 
 from constants.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SELECTED_COLOR_MENU, UNSELECTED_COLOR_MENU
 from core.State import State
+from core.scenes.Scene import Scene
 
 
 VERY_HARD = 'QUERO GALINHADA (MUITO DIFICIL)'
@@ -18,7 +19,7 @@ NORMAL = 'NORMAL'
 EASY = 'FACIL'
 
 
-class SubMenuDifficulty:
+class SubMenuDifficulty(Scene):
     SELECTED_COLOR = SELECTED_COLOR_MENU
     UNSELECTED_COLOR = UNSELECTED_COLOR_MENU
 

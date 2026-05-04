@@ -13,10 +13,11 @@ from constants.constants import DT_DIVISOR, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
 from core.State import State
 from core.entities.Enemy import Enemy
 from core.entities.Player import Player
+from core.scenes.Scene import Scene
 from utils.utils import fps_counter
 
 
-class Game:
+class Game(Scene):
     def __init__(self, window: Surface, clock: Clock, font: Font) -> None:
         self.window = window
         self.clock = clock

@@ -10,11 +10,12 @@ from pygame.event import Event
 
 from constants.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SELECTED_COLOR_MENU, UNSELECTED_COLOR_MENU
 from core.State import State
+from core.scenes.Scene import Scene
 
 START = 'JOGAR'
 QUIT = 'SAIR'
 
-class Menu:
+class Menu(Scene):
     SELECTED_COLOR = SELECTED_COLOR_MENU
     UNSELECTED_COLOR = UNSELECTED_COLOR_MENU
 
