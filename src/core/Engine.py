@@ -47,7 +47,7 @@ class Engine:
             new_state = self.scenes[self.current_state].update(events)
 
             if new_state != self.current_state and self.current_state == State.GAME:
-                self.scenes[State.GAME].reset()
+                self.scenes[self.current_state].reset()
                     
             if new_state == State.EXIT:
                 self.running = False
