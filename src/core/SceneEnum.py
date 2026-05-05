@@ -1,7 +1,7 @@
 from enum import Enum
 
-class State(Enum):
+class SceneEnum(Enum):
     MENU = 1
-    SUBMENU = 2
+    MENU_DIFFICULTY = 2
     GAME = 3
     EXIT = 4
