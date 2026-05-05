@@ -84,7 +84,7 @@ class Game(Scene):
             self.player_group.update(dt)
             self.player_bullets.update(dt)
             self.enemies_bullets.update(dt)
-            self.move_enemies()   
+            self.move_enemies(dt)   
             self.add_enemies()
             self.enemy_shot()
             self.detect_enemy_bullet_collision()
@@ -103,7 +103,7 @@ class Game(Scene):
                     y += 100
                     max_y += 100
     
-    def move_enemies(self):
+    def move_enemies(self, dt: float):
         has_hit_bord = False
         for enemy in self.enemies:
             enemy: Enemy
@@ -118,9 +118,9 @@ class Game(Scene):
         for enemy in self.enemies:
             enemy: Enemy
             if enemy.rect.y < enemy.max_y:
-                enemy.rect.y += round(GAME_STATE.difficulty.ENEMY_SPEED / 2)
+                enemy.rect.y += round((GAME_STATE.difficulty.ENEMY_SPEED * dt) / 2)
             else:
-                enemy.rect.x += GAME_STATE.difficulty.ENEMY_SPEED * self.direction
+                enemy.rect.x += round((GAME_STATE.difficulty.ENEMY_SPEED * dt) * self.direction)
     
 
     def enemy_shot(self):

@@ -17,7 +17,7 @@ DIFFICULTIES = {
         Difficulty.EASY,
         enemy_amount=6,
         enemy_health=100,
-        enemy_speed=5,
+        enemy_speed=100,
         enemy_bullet_delay=3000,
         player_health=300,
         max_player_bullets=2
@@ -26,7 +26,7 @@ DIFFICULTIES = {
         Difficulty.NORMAL,
         enemy_amount=6,
         enemy_health=200,
-        enemy_speed=5,
+        enemy_speed=100,
         enemy_bullet_delay=3000,
         player_health=200,
         max_player_bullets=1
@@ -35,7 +35,7 @@ DIFFICULTIES = {
         Difficulty.HARD,
         enemy_amount=12,
         enemy_health=200,
-        enemy_speed=10,
+        enemy_speed=150,
         enemy_bullet_delay=1500,
         player_health=100,
         max_player_bullets=1
@@ -44,7 +44,7 @@ DIFFICULTIES = {
         Difficulty.VERY_HARD,
         enemy_amount=12,
         enemy_health=300,
-        enemy_speed=15,
+        enemy_speed=200,
         enemy_bullet_delay=1000,
         player_health=100,
         max_player_bullets=1
