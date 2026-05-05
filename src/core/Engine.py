@@ -5,10 +5,12 @@ import sys
 import pygame
 from pygame.time import Clock
 from pygame.mixer import Sound
-
 from constants.constants import FPS, SCREEN_HEIGHT, SCREEN_WIDTH
+from core.State import State
 from core.scenes.Game import Game
 from core.scenes.Menu import Menu
+from core.scenes.MenuDifficulty import MenuDifficulty
+from core.scenes.Scene import Scene
 
 
 class Engine:
@@ -17,17 +19,21 @@ class Engine:
         pygame.display.set_caption("Chicken Invaders")
 
         self.music = Sound('./src/sounds/space_heroes.ogg')
+        self.selection_highlight_menu_sound = Sound('./src/sounds/vgmenuhighlight.ogg')
+        self.selection_menu_sound = Sound('./src/sounds/menu_selection.wav')
         self.font_menu = pygame.font.SysFont("Arial" , 32, bold = True)
         self.font_game = pygame.font.SysFont("Arial" , 18 , bold = True)
         self.window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = Clock()
         self.fundo = pygame.image.load('./src/images/space.png').convert()
         self.fundo = pygame.transform.scale(self.fundo, (SCREEN_WIDTH, SCREEN_HEIGHT))
-
         self.running = True
-        self.state = "MENU"
-        self.menu = Menu(self.window, self.clock, self.font_menu)
-        self.game = None
+        self.current_state: State = State.MENU
+        self.scenes: dict[State, Scene] = {
+            State.MENU: Menu(self.window, self.clock, self.font_menu, self.selection_highlight_menu_sound, self.selection_menu_sound),
+            State.SUBMENU: MenuDifficulty(self.window, self.clock, self.font_menu, self.selection_highlight_menu_sound, self.selection_menu_sound),
+            State.GAME: Game(self.window, self.clock, self.font_game)
+        }
 
     
     def run(self):
@@ -35,19 +41,18 @@ class Engine:
         self.music.play(loops=-1)
         while self.running:
             self.window.blit(self.fundo, (0, 0))
-            if self.state == "MENU":
-                if self.game is not None:
-                    self.menu.sub_menu_difficulty.selected_difficulty = None
-                    self.game = None
-                self.state = self.menu.update()
-                self.menu.draw()
-            elif self.state == "GAME":
-                if self.game is None:
-                    self.game = Game(self.window, self.clock, self.font_game)
-                self.state = self.game.update()
-                self.game.draw()
-            elif self.state == "EXIT":
+            events = pygame.event.get()
+
+            self.scenes[self.current_state].draw()
+            new_state = self.scenes[self.current_state].update(events)
+
+            if new_state != self.current_state and self.current_state == State.GAME:
+                self.scenes[self.current_state].reset()
+                    
+            if new_state == State.EXIT:
                 self.running = False
+
+            self.current_state = new_state
             
             pygame.display.flip()
             self.clock.tick(FPS)
