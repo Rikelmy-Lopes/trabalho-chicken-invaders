@@ -25,25 +25,29 @@ class Player(Entity):
 
 
     def update(self, dt: float) -> None:
+        self.move(dt)
+
+    def move(self, dt: float):
         keys = pygame.key.get_pressed()
 
-        if keys[pygame.K_LEFT] and self.rect.x > 0:
+        if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and self.rect.x > 0:
             self.rect.x -= round(self.speed * dt)
 
-        if keys[pygame.K_RIGHT] and (self.rect.x + self.rect.width) < SCREEN_WIDTH:
+        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and (self.rect.x + self.rect.width) < SCREEN_WIDTH:
             self.rect.x += round(self.speed * dt)
 
-        if keys[pygame.K_UP] and self.rect.y > 0:
+        if (keys[pygame.K_UP] or keys[pygame.K_w]) and self.rect.y > 0:
             self.rect.y -= round(self.speed * dt)
 
-        if keys[pygame.K_DOWN] and (self.rect.y + self.rect.height < SCREEN_HEIGHT):
+        if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and (self.rect.y + self.rect.height < SCREEN_HEIGHT):
             self.rect.y += round(self.speed * dt)
-
+        
         # reseta a posicao do player caso ele ultrapasse os limites
         if (self.rect.x < 0):
             self.rect.x = 0
         elif self.rect.x + self.rect.width > SCREEN_WIDTH:
             self.rect.x = (SCREEN_WIDTH - self.rect.width)
+
 
 
     def shoot(self, bullets: Group):
