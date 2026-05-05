@@ -19,13 +19,14 @@ from core.scenes.Scene import Scene
 from core.state.GameState import GAME_STATE
 from utils.utils import fps_counter
 
+
 class Game(Scene):
     def __init__(self, window: Surface, clock: Clock, font: Font) -> None:
         self.window = window
         self.clock = clock
         self.font = font
 
-        self.paused = False
+        self.is_paused = False
         self.direction = 1
         self.player = Player((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 100)
         self.player_group = Group()
@@ -38,27 +39,15 @@ class Game(Scene):
         self.JOGO_PAUSADO_TEXT = self.font.render("JOGO PAUSADO!" , 1, pygame.Color("RED"))
 
     def draw(self):
-        dt = self.clock.tick(FPS) / DT_DIVISOR
-
-        if self.paused:    
+        if self.is_paused:    
             retangulo_texto = self.JOGO_PAUSADO_TEXT.get_rect()
             retangulo_texto.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
-            self.player_group.draw(self.window)
-            self.player_bullets.draw(self.window)
-            self.enemies_bullets.draw(self.window)
-            self.enemies.draw(self.window)
             self.window.blit(self.JOGO_PAUSADO_TEXT,  retangulo_texto)
-            
-        else:
-            self.player_group.update(dt)
-            self.player_bullets.update(dt)
-            self.enemies_bullets.update(dt)
-            self.player_group.draw(self.window)
-            self.player_bullets.draw(self.window)
-            self.enemies_bullets.draw(self.window)
-            self.enemies.draw(self.window)
-            self.detect_enemy_bullet_collision()
-            self.detect_player_bullet_collision()
+
+        self.player_group.draw(self.window)
+        self.player_bullets.draw(self.window)
+        self.enemies_bullets.draw(self.window)
+        self.enemies.draw(self.window)
 
         fps_counter(self.window, self.clock, self.font)
 
@@ -71,37 +60,42 @@ class Game(Scene):
                 enemy.receive_damage()
 
     def detect_player_bullet_collision(self):
-        hits = pygame.sprite.groupcollide(self.enemies_bullets, self.player_group, True, False)
-        for _, player in hits.items():
-            player: List[Player]
-            for p in player:
-                p.receive_damage()
+        hits = pygame.sprite.groupcollide(self.player_group, self.enemies_bullets, True, False)
+        
+        if hits:
+            self.player.receive_damage()
 
     def update(self, events: list[Event]):
         for event in events:
+            self.player.handle_input(event, self.player_bullets)
             if event.type == pygame.QUIT:
-                return SceneEnum.EXIT
+                GAME_STATE.current_scene = SceneEnum.EXIT
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_F5:
                     self.player.speed += 20
                 if event.key == pygame.K_p:
-                    self.paused = not self.paused
+                    self.is_paused = not self.is_paused
                 if event.key == pygame.K_ESCAPE:
-                    return SceneEnum.MENU
-                if event.key == pygame.K_SPACE:
-                    self.player.shoot(self.player_bullets)
+                    GAME_STATE.current_scene = SceneEnum.MENU
 
-        self.move_enemies()   
-        self.add_enemies()
-        self.enemy_shot()
-        return SceneEnum.GAME
+        dt = self.clock.tick(FPS) / DT_DIVISOR
+
+        if not self.is_paused:
+            self.player_group.update(dt)
+            self.player_bullets.update(dt)
+            self.enemies_bullets.update(dt)
+            self.move_enemies()   
+            self.add_enemies()
+            self.enemy_shot()
+            self.detect_enemy_bullet_collision()
+            self.detect_player_bullet_collision()
     
     def add_enemies(self):
         x = 50
         y = -100
         max_y = 50
         if len(self.enemies) == 0:
-            for _ in range(GAME_STATE.difficulty.ENEMY_AMOUNT):
+            for _ in range(GAME_STATE.difficulty.ENEMY_AMOUNT): 
                 self.enemies.add(Enemy(x, y, max_y, GAME_STATE.difficulty.ENEMY_HEALTH))
                 x += 100
                 if x > SCREEN_WIDTH - 50:
@@ -131,16 +125,16 @@ class Game(Scene):
 
     def enemy_shot(self):
         for enemy in self.enemies:
-        # Define a chance (ex: 0.01 é 1% de chance por frame)
-            if random.random() < 0.005: 
+            if random.random() < 0.005 and enemy.rect.y >= enemy.max_y: 
                 enemy.shoot(self.enemies_bullets)
     
     def reset(self):
         self.player = Player((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 100)
-        print(self.player.health)
-        self.all_sprites = Group()
-        self.bullets = Group()
+        self.player_group = Group()
+        self.player_bullets = Group()
+        self.enemies_bullets = Group()
         self.enemies = Group()
 
-        self.all_sprites.add(self.player)
-        # self.enemies.add(Enemy(300, 0))
+        self.add_enemies()
+
+        self.player_group.add(self.player)

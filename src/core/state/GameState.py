@@ -1,5 +1,6 @@
 from constants.constants import DIFFICULTIES
 from core.Difficulty import Difficulty
+from core.SceneEnum import SceneEnum
 
 
 
@@ -14,6 +15,7 @@ class _GameState:
             cls._instance = super().__new__(cls)
             cls._instance.score = 0
             cls._instance.difficulty = DIFFICULTIES[Difficulty.NORMAL]
+            cls._instance.current_scene = SceneEnum.MENU
 
         return cls._instance
 
@@ -23,6 +25,9 @@ class _GameState:
     
     def increase_score(self, score: int):
         self.score += score
+
+    def set_current_scene(self, scene: SceneEnum):
+        self.current_scene = scene
 
 
 GAME_STATE = _GameState()

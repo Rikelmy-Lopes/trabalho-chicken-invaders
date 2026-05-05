@@ -32,7 +32,7 @@ class MenuDifficulty(Scene):
         self.selection_highlight_menu_sound = selection_highlight_menu_sound
         self.selection_menu_sound = selection_menu_sound
         self.all_sprites = Group()
-        self.selected_difficulty = Difficulty.NORMAL.value
+        self.selected_difficulty = GAME_STATE.difficulty.difficulty_value.value
 
 
     def draw(self) -> None:
@@ -79,17 +79,16 @@ class MenuDifficulty(Scene):
     def update(self, events: list[Event]):
         for event in events:
             if event.type == pygame.QUIT:
-                return SceneEnum.EXIT
+                GAME_STATE.current_scene = SceneEnum.EXIT
             if event.type == pygame.KEYDOWN:
                 self.move_selection(event)
                 if event.key == pygame.K_RETURN:
                     self.selection_menu_sound.play()
                     GAME_STATE.update_difficulty(Difficulty(self.selected_difficulty))
-                    return SceneEnum.GAME
+                    GAME_STATE.current_scene = SceneEnum.GAME
                 if event.key == pygame.K_ESCAPE:
                     self.selection_menu_sound.play()
-                    return SceneEnum.MENU
-        return SceneEnum.MENU_DIFFICULTY
+                    GAME_STATE.current_scene = SceneEnum.MENU
     
 
     def reset(self) -> None:

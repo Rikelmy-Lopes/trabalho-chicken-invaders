@@ -11,6 +11,7 @@ from core.scenes.Game import Game
 from core.scenes.Menu import Menu
 from core.scenes.MenuDifficulty import MenuDifficulty
 from core.scenes.Scene import Scene
+from core.state.GameState import GAME_STATE
 
 
 class Engine:
@@ -43,19 +44,17 @@ class Engine:
             self.window.blit(self.fundo, (0, 0))
             events = pygame.event.get()
 
-            self.scenes[self.current_scene].draw()
-            new_scene = self.scenes[self.current_scene].update(events)
+            if self.current_scene != GAME_STATE.current_scene:
+                if GAME_STATE.current_scene == SceneEnum.GAME:
+                    self.scenes[SceneEnum.GAME].reset()
 
-            if self.current_scene == SceneEnum.MENU_DIFFICULTY and new_scene == SceneEnum.GAME:
-                self.scenes[SceneEnum.GAME]
+                self.current_scene = GAME_STATE.current_scene
 
-            if new_scene != self.current_scene and self.current_scene == SceneEnum.GAME:
-                self.scenes[self.current_scene].reset()
+            self.scenes[GAME_STATE.current_scene].draw()
+            self.scenes[GAME_STATE.current_scene].update(events)
                     
-            if new_scene == SceneEnum.EXIT:
+            if GAME_STATE.current_scene == SceneEnum.EXIT:
                 self.running = False
-
-            self.current_scene = new_scene
             
             pygame.display.flip()
             self.clock.tick(FPS)

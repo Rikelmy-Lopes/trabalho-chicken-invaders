@@ -28,6 +28,12 @@ class Player(Entity):
     def update(self, dt: float) -> None:
         self.move(dt)
 
+    
+    def handle_input(self, event, player_bullets):
+        if event.type == pygame.KEYDOWN:
+            if event.key == pygame.K_SPACE:
+                self.shoot(player_bullets)
+
     def move(self, dt: float):
         keys = pygame.key.get_pressed()
 
@@ -54,6 +60,9 @@ class Player(Entity):
     def shoot(self, bullets: Group):
         if (len(bullets) == GAME_STATE.difficulty.MAX_PLAYER_BULLETS):
             return
+
+        if self.health <= 0:
+            return
         
         new_bullet = Bullet(self.rect.centerx, self.rect.top)
         bullets.add(new_bullet)
@@ -62,7 +71,6 @@ class Player(Entity):
 
     
     def receive_damage(self, amount = 100):
-        print(self.health)
         self.health -= amount
         if self.health <= 0:
             self.kill()

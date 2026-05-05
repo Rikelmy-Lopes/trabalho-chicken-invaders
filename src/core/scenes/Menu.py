@@ -11,6 +11,7 @@ from pygame.event import Event
 from constants.constants import SCREEN_HEIGHT, SCREEN_WIDTH, SELECTED_COLOR_MENU, UNSELECTED_COLOR_MENU
 from core.SceneEnum import SceneEnum
 from core.scenes.Scene import Scene
+from core.state.GameState import GAME_STATE
 
 START = 'JOGAR'
 QUIT = 'SAIR'
@@ -48,17 +49,16 @@ class Menu(Scene):
     def update(self, events: list[Event]):
         for event in events:
             if event.type == pygame.QUIT:
-                return SceneEnum.EXIT
+                GAME_STATE.current_scene = SceneEnum.EXIT
             if event.type == pygame.KEYDOWN:
                 self.move_selection(event)
                 if event.key == pygame.K_RETURN:
                     if self.selected == 1:
                         self.selection_menu_sound.play()
-                        return SceneEnum.MENU_DIFFICULTY
+                        GAME_STATE.current_scene = SceneEnum.MENU_DIFFICULTY
                     elif self.selected == 2:
                         self.selection_menu_sound.play()
-                        return SceneEnum.EXIT
-        return SceneEnum.MENU
+                        GAME_STATE.current_scene = SceneEnum.EXIT
     
     def move_selection(self, event: Event):
         if event.key == pygame.K_DOWN:
