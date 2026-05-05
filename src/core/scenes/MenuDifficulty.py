@@ -33,8 +33,10 @@ class MenuDifficulty(Scene):
         self.selected_difficulty = 3
 
 
+    def draw(self) -> None:
+        self.__draw_menu()
 
-    def draw(self):
+    def __draw_menu(self):
         color_very_hard = self.SELECTED_COLOR if self.selected_difficulty == 1 else self.UNSELECTED_COLOR
         color_hard = self.SELECTED_COLOR if self.selected_difficulty == 2 else self.UNSELECTED_COLOR
         color_normal = self.SELECTED_COLOR if self.selected_difficulty == 3 else self.UNSELECTED_COLOR
@@ -57,7 +59,7 @@ class MenuDifficulty(Scene):
 
 
 
-    def select_menu_difficulty(self, event: Event):
+    def move_selection(self, event: Event):
         if event.key == pygame.K_DOWN:
             if self.selected_difficulty == 4:
                 self.selected_difficulty = 1
@@ -77,7 +79,7 @@ class MenuDifficulty(Scene):
             if event.type == pygame.QUIT:
                 return State.EXIT
             if event.type == pygame.KEYDOWN:
-                self.select_menu_difficulty(event)
+                self.move_selection(event)
                 if event.key == pygame.K_RETURN:
                     self.selection_menu_sound.play()
                     return State.GAME

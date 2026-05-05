@@ -28,7 +28,7 @@ class Engine:
         self.fundo = pygame.image.load('./src/images/space.png').convert()
         self.fundo = pygame.transform.scale(self.fundo, (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.running = True
-        self.state: State = State.MENU
+        self.current_state: State = State.MENU
         self.scenes: dict[State, Scene] = {
             State.MENU: Menu(self.window, self.clock, self.font_menu, self.selection_highlight_menu_sound, self.selection_menu_sound),
             State.SUBMENU: MenuDifficulty(self.window, self.clock, self.font_menu, self.selection_highlight_menu_sound, self.selection_menu_sound),
@@ -43,14 +43,16 @@ class Engine:
             self.window.blit(self.fundo, (0, 0))
             events = pygame.event.get()
 
-            self.scenes[self.state].draw()
-            self.state = self.scenes[self.state].update(events)
+            self.scenes[self.current_state].draw()
+            new_state = self.scenes[self.current_state].update(events)
 
-            if self.state == State.MENU:
-                if self.scenes[State.GAME] is not None:
-                    self.scenes[State.GAME].reset()
-            elif self.state == State.EXIT:
+            if new_state != self.current_state and self.current_state == State.GAME:
+                self.scenes[State.GAME].reset()
+                    
+            if new_state == State.EXIT:
                 self.running = False
+
+            self.current_state = new_state
             
             pygame.display.flip()
             self.clock.tick(FPS)

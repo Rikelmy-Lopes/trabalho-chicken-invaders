@@ -50,7 +50,7 @@ class Menu(Scene):
             if event.type == pygame.QUIT:
                 return State.EXIT
             if event.type == pygame.KEYDOWN:
-                self.select_menu(event)
+                self.move_selection(event)
                 if event.key == pygame.K_RETURN:
                     if self.selected == 1:
                         self.selection_menu_sound.play()
@@ -60,7 +60,7 @@ class Menu(Scene):
                         return State.EXIT
         return State.MENU
     
-    def select_menu(self, event: Event):
+    def move_selection(self, event: Event):
         if event.key == pygame.K_DOWN:
             if self.selected == 2:
                 self.selected = 1
