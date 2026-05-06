@@ -17,7 +17,7 @@ class Player(Entity):
     PLAYER_WIDTH = 100
     PLAYER_HEIGHT = 100
 
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int):
         super().__init__(x, y, BLUE_COLOR, (self.PLAYER_WIDTH, self.PLAYER_HEIGHT), './src/images/spaceship.png', 2)
         self.speed = GAME_STATE.difficulty.PLAYER_SPEED
         self.health = GAME_STATE.difficulty.PLAYER_HEALTH
@@ -38,16 +38,19 @@ class Player(Entity):
         keys = pygame.key.get_pressed()
 
         if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and self.rect.x > 0:
-            self.rect.x -= round(self.speed * dt)
+            self.pos_x -= self.speed * dt
 
         if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and (self.rect.x + self.rect.width) < SCREEN_WIDTH:
-            self.rect.x += round(self.speed * dt)
+            self.pos_x += self.speed * dt
 
         if (keys[pygame.K_UP] or keys[pygame.K_w]) and self.rect.y > 0:
-            self.rect.y -= round(self.speed * dt)
+            self.pos_y -= self.speed * dt
 
         if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and (self.rect.y + self.rect.height < SCREEN_HEIGHT):
-            self.rect.y += round(self.speed * dt)
+            self.pos_y += self.speed * dt
+
+        self.rect.x = round(self.pos_x)
+        self.rect.y = round(self.pos_y)
         
         # reseta a posicao do player caso ele ultrapasse os limites
         if (self.rect.x < 0):

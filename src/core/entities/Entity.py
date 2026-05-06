@@ -19,5 +19,7 @@ class Entity(Sprite):
             self.image = Surface(size)
             self.image.fill(color)
             
-        self.rect = self.image.get_rect(topleft=(x, y)) 
+        self.rect = self.image.get_rect(topleft=(x, y))
+        self.pos_x = float(self.rect.x)
+        self.pos_y = float(self.rect.y)
         self.speed = None

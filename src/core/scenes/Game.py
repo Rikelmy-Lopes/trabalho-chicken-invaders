@@ -28,14 +28,13 @@ class Game(Scene):
 
         self.is_paused = False
         self.direction = 1
-        self.player = Player((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 100)
+        self.player: Player
         self.player_group = Group()
         self.player_bullets = Group()
         self.enemies_bullets = Group()
         self.enemies = Group()
         self.difficulty = DIFFICULTIES[Difficulty.NORMAL]
 
-        self.player_group.add(self.player)
         self.JOGO_PAUSADO_TEXT = self.font.render("JOGO PAUSADO!" , 1, pygame.Color("RED"))
 
     def draw(self):
@@ -60,7 +59,7 @@ class Game(Scene):
                 enemy.receive_damage()
 
     def detect_player_bullet_collision(self):
-        hits = pygame.sprite.groupcollide(self.player_group, self.enemies_bullets, True, False)
+        hits = pygame.sprite.groupcollide(self.player_group, self.enemies_bullets, False, True)
         
         if hits:
             self.player.receive_damage()
@@ -78,6 +77,9 @@ class Game(Scene):
                 if event.key == pygame.K_ESCAPE:
                     GAME_STATE.current_scene = SceneEnum.MENU
 
+        if self.player.health <= 0:
+            GAME_STATE.current_scene = SceneEnum.GAME_OVER
+
         if not self.is_paused:
             self.player_group.update(dt)
             self.player_bullets.update(dt)
@@ -89,17 +91,18 @@ class Game(Scene):
             self.detect_player_bullet_collision()
     
     def add_enemies(self):
+        if len(self.enemies) != 0:
+            return
         x = 50
         y = -100
         max_y = 50
-        if len(self.enemies) == 0:
-            for _ in range(GAME_STATE.difficulty.ENEMY_AMOUNT): 
-                self.enemies.add(Enemy(x, y, max_y, GAME_STATE.difficulty.ENEMY_HEALTH))
-                x += 100
-                if x > SCREEN_WIDTH - 50:
-                    x = 50
-                    y += 100
-                    max_y += 100
+        for _ in range(GAME_STATE.difficulty.ENEMY_AMOUNT): 
+            self.enemies.add(Enemy(x, y, max_y, GAME_STATE.difficulty.ENEMY_HEALTH))
+            x += 100
+            if x > SCREEN_WIDTH - 50:
+                x = 50
+                y += 100
+                max_y += 100
     
     def move_enemies(self, dt: float):
         has_hit_bord = False
@@ -116,9 +119,12 @@ class Game(Scene):
         for enemy in self.enemies:
             enemy: Enemy
             if enemy.rect.y < enemy.max_y:
-                enemy.rect.y += round((GAME_STATE.difficulty.ENEMY_SPEED * dt) / 2)
+                enemy.pos_y += (GAME_STATE.difficulty.ENEMY_SPEED * dt) / 2
             else:
-                enemy.rect.x += round((GAME_STATE.difficulty.ENEMY_SPEED * dt) * self.direction)
+                enemy.pos_x += (GAME_STATE.difficulty.ENEMY_SPEED * dt) * self.direction
+            enemy.rect.y = round(enemy.pos_y)
+            enemy.rect.x = round(enemy.pos_x)
+        
     
 
     def enemy_shot(self):
@@ -127,7 +133,7 @@ class Game(Scene):
                 enemy.shoot(self.enemies_bullets)
     
     def reset(self):
-        self.player = Player((SCREEN_WIDTH - 100) / 2, SCREEN_HEIGHT - 100)
+        self.player = Player(round((SCREEN_WIDTH - 100) / 2), SCREEN_HEIGHT - 100)
         self.player_group = Group()
         self.player_bullets = Group()
         self.enemies_bullets = Group()

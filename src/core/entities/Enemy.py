@@ -3,7 +3,6 @@
 
 from pygame.mixer import Sound
 
-from core.entities import EnemyBullet
 from core.entities.Entity import Entity
 from core.entities.EnemyBullet import EnemyBullet
 from pygame.sprite import Group
@@ -13,7 +12,7 @@ RED_COLOR = (255, 0, 0)
 
 class Enemy(Entity):
 
-    def __init__(self, x, y, max_y, health, image_path=None):
+    def __init__(self, x: int, y: int, max_y: int, health: int, image_path=None):
         super().__init__(x, y, RED_COLOR, (50, 50), image_path)
         self.health = health
         self.chicken_death = Sound('./src/sounds/chicken_death.mp3')

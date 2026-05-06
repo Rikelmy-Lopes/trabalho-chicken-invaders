@@ -8,6 +8,7 @@ from pygame.mixer import Sound
 from constants.constants import DT_DIVISOR, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
 from core.SceneEnum import SceneEnum
 from core.scenes.Game import Game
+from core.scenes.GameOver import GameOver
 from core.scenes.Menu import Menu
 from core.scenes.MenuDifficulty import MenuDifficulty
 from core.scenes.Scene import Scene
@@ -33,7 +34,8 @@ class Engine:
         self.scenes: dict[SceneEnum, Scene] = {
             SceneEnum.MENU: Menu(self.window, self.clock, self.font_menu, self.selection_highlight_menu_sound, self.selection_menu_sound),
             SceneEnum.MENU_DIFFICULTY: MenuDifficulty(self.window, self.clock, self.font_menu, self.selection_highlight_menu_sound, self.selection_menu_sound),
-            SceneEnum.GAME: Game(self.window, self.clock, self.font_game)
+            SceneEnum.GAME: Game(self.window, self.clock, self.font_game),
+            SceneEnum.GAME_OVER: GameOver(self.window, self.clock, self.font_menu)
         }
 
     
