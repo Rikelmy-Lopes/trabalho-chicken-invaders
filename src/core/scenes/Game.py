@@ -11,8 +11,7 @@ from pygame.font import Font
 from pygame.sprite import Group
 from pygame.event import Event
 
-from constants.constants import DIFFICULTIES, SCREEN_HEIGHT, SCREEN_WIDTH
-from core.Difficulty import Difficulty
+from constants.constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from core.SceneEnum import SceneEnum
 from core.entities.Enemy import Enemy
 from core.entities.Player import Player
@@ -34,8 +33,8 @@ class Game(Scene):
         self.player_bullets = Group()
         self.enemies_bullets = Group()
         self.enemies = Group()
-        self.difficulty = DIFFICULTIES[Difficulty.NORMAL]
-        self.last_shot = time.time_ns() // 1_000_000
+        self.difficulty = GAME_STATE.difficulty
+        self.last_shot = -1
 
         self.JOGO_PAUSADO_TEXT = self.font.render("JOGO PAUSADO!" , 1, pygame.Color("RED"))
 
@@ -121,9 +120,9 @@ class Game(Scene):
         for enemy in self.enemies:
             enemy: Enemy
             if enemy.rect.y < enemy.max_y:
-                enemy.pos_y += (GAME_STATE.difficulty.ENEMY_SPEED * dt) / 2
+                enemy.pos_y += (enemy.speed * dt) / 2
             else:
-                enemy.pos_x += (GAME_STATE.difficulty.ENEMY_SPEED * dt) * self.direction
+                enemy.pos_x += (enemy.speed * dt) * self.direction
             enemy.rect.y = round(enemy.pos_y)
             enemy.rect.x = round(enemy.pos_x)
         
@@ -137,7 +136,7 @@ class Game(Scene):
 
         if now - self.last_shot > GAME_STATE.difficulty.ENEMY_BULLET_DELAY:
             enemy: Enemy = random.choice(self.enemies.sprites())
-            if enemy.rect.y == enemy.max_y:
+            if enemy.rect.y >= enemy.max_y:
                 enemy.shoot(self.enemies_bullets)
                 self.last_shot = now
     

@@ -3,11 +3,11 @@
 import pygame
 from pygame.mixer import Sound
 from pygame.sprite import Group
-
 from constants.constants import SCREEN_HEIGHT, SCREEN_WIDTH
 from core.entities.Bullet import Bullet
 from core.entities.Entity import Entity
 from core.state.GameState import GAME_STATE
+from pygame.event import Event
 
 BLUE_COLOR = (0, 0, 255)
 
@@ -29,7 +29,7 @@ class Player(Entity):
         self.move(dt)
 
     
-    def handle_input(self, event, player_bullets):
+    def handle_input(self, event: Event, player_bullets: Group):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
                 self.shoot(player_bullets)
