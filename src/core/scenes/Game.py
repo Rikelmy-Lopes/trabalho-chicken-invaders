@@ -10,7 +10,7 @@ from pygame.font import Font
 from pygame.sprite import Group
 from pygame.event import Event
 
-from constants.constants import DIFFICULTIES, DT_DIVISOR, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
+from constants.constants import DIFFICULTIES, SCREEN_HEIGHT, SCREEN_WIDTH
 from core.Difficulty import Difficulty
 from core.SceneEnum import SceneEnum
 from core.entities.Enemy import Enemy
@@ -65,7 +65,7 @@ class Game(Scene):
         if hits:
             self.player.receive_damage()
 
-    def update(self, events: list[Event]):
+    def update(self, events: list[Event], dt: float):
         for event in events:
             self.player.handle_input(event, self.player_bullets)
             if event.type == pygame.QUIT:
@@ -77,8 +77,6 @@ class Game(Scene):
                     self.is_paused = not self.is_paused
                 if event.key == pygame.K_ESCAPE:
                     GAME_STATE.current_scene = SceneEnum.MENU
-
-        dt = self.clock.tick(FPS) / DT_DIVISOR
 
         if not self.is_paused:
             self.player_group.update(dt)

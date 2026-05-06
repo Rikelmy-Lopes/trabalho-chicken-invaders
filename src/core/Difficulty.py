@@ -15,6 +15,8 @@ class DifficultySettings:
         enemy_health: int,
         enemy_speed: int,
         enemy_bullet_delay: int,
+        enemy_bullet_speed: int,
+        player_speed: int,
         player_health: int,
         max_player_bullets: int
     ):
@@ -23,5 +25,7 @@ class DifficultySettings:
         self.ENEMY_HEALTH = enemy_health
         self.ENEMY_SPEED = enemy_speed
         self.ENEMY_BULLET_DELAY = enemy_bullet_delay
+        self.ENEMY_BULLET_SPEED = enemy_bullet_speed
+        self.PLAYER_SPEED = player_speed
         self.PLAYER_HEALTH = player_health
         self.MAX_PLAYER_BULLETS = max_player_bullets

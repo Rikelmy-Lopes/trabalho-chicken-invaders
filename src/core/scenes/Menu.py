@@ -46,7 +46,7 @@ class Menu(Scene):
         self.window.blit(surf_start, rect_start)
         self.window.blit(surf_quit, rect_quit)
 
-    def update(self, events: list[Event]):
+    def update(self, events: list[Event], dt: float):
         for event in events:
             if event.type == pygame.QUIT:
                 GAME_STATE.current_scene = SceneEnum.EXIT

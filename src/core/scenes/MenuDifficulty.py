@@ -76,7 +76,7 @@ class MenuDifficulty(Scene):
             self.selection_highlight_menu_sound.play()
     
      
-    def update(self, events: list[Event]):
+    def update(self, events: list[Event], dt: float):
         for event in events:
             if event.type == pygame.QUIT:
                 GAME_STATE.current_scene = SceneEnum.EXIT

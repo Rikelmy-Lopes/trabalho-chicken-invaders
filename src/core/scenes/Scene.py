@@ -8,7 +8,7 @@ class Scene(ABC):
         pass
 
     @abstractmethod
-    def update(self, events: list[Event]):
+    def update(self, events: list[Event], dt: float):
         pass
 
     @abstractmethod

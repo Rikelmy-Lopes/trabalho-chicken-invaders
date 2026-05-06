@@ -5,7 +5,7 @@ import sys
 import pygame
 from pygame.time import Clock
 from pygame.mixer import Sound
-from constants.constants import FPS, SCREEN_HEIGHT, SCREEN_WIDTH
+from constants.constants import DT_DIVISOR, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
 from core.SceneEnum import SceneEnum
 from core.scenes.Game import Game
 from core.scenes.Menu import Menu
@@ -43,6 +43,7 @@ class Engine:
         while self.running:
             self.window.blit(self.fundo, (0, 0))
             events = pygame.event.get()
+            dt = self.clock.tick(FPS) / DT_DIVISOR
 
             if self.current_scene != GAME_STATE.current_scene:
                 if GAME_STATE.current_scene == SceneEnum.GAME:
@@ -51,13 +52,12 @@ class Engine:
                 self.current_scene = GAME_STATE.current_scene
 
             self.scenes[GAME_STATE.current_scene].draw()
-            self.scenes[GAME_STATE.current_scene].update(events)
+            self.scenes[GAME_STATE.current_scene].update(events, dt)
                     
             if GAME_STATE.current_scene == SceneEnum.EXIT:
                 self.running = False
             
             pygame.display.flip()
-            self.clock.tick(FPS)
         
         pygame.quit()
         sys.exit()
