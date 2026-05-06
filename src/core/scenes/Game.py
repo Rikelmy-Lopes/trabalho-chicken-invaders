@@ -1,6 +1,7 @@
 
 
 import random
+import time
 from typing import List
 
 import pygame
@@ -34,6 +35,7 @@ class Game(Scene):
         self.enemies_bullets = Group()
         self.enemies = Group()
         self.difficulty = DIFFICULTIES[Difficulty.NORMAL]
+        self.last_shot = time.time_ns() // 1_000_000
 
         self.JOGO_PAUSADO_TEXT = self.font.render("JOGO PAUSADO!" , 1, pygame.Color("RED"))
 
@@ -128,9 +130,16 @@ class Game(Scene):
     
 
     def enemy_shot(self):
-        for enemy in self.enemies:
-            if random.random() < 0.005 and enemy.rect.y >= enemy.max_y: 
+        if len(self.enemies) == 0:
+            return
+        
+        now = time.time_ns() // 1_000_000
+
+        if now - self.last_shot > GAME_STATE.difficulty.ENEMY_BULLET_DELAY:
+            enemy: Enemy = random.choice(self.enemies.sprites())
+            if enemy.rect.y == enemy.max_y:
                 enemy.shoot(self.enemies_bullets)
+                self.last_shot = now
     
     def reset(self):
         self.player = Player(round((SCREEN_WIDTH - 100) / 2), SCREEN_HEIGHT - 100)
