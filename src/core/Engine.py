@@ -23,8 +23,6 @@ class Engine:
         self.music = Sound('./src/sounds/space_heroes.ogg')
         self.selection_highlight_menu_sound = Sound('./src/sounds/vgmenuhighlight.ogg')
         self.selection_menu_sound = Sound('./src/sounds/menu_selection.wav')
-        self.font_menu = pygame.font.SysFont("Arial" , 32, bold = True)
-        self.font_game = pygame.font.SysFont("Arial" , 18 , bold = True)
         self.window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = Clock()
         self.fundo = pygame.image.load('./src/images/space.png').convert()
@@ -32,10 +30,10 @@ class Engine:
         self.running = True
         self.current_scene: SceneEnum = SceneEnum.MENU
         self.scenes: dict[SceneEnum, Scene] = {
-            SceneEnum.MENU: Menu(self.window, self.clock, self.font_menu, self.selection_highlight_menu_sound, self.selection_menu_sound),
-            SceneEnum.MENU_DIFFICULTY: MenuDifficulty(self.window, self.clock, self.font_menu, self.selection_highlight_menu_sound, self.selection_menu_sound),
-            SceneEnum.GAME: Game(self.window, self.clock, self.font_game),
-            SceneEnum.GAME_OVER: GameOver(self.window, self.clock, self.font_menu)
+            SceneEnum.MENU: Menu(self.window, self.clock, self.selection_highlight_menu_sound, self.selection_menu_sound),
+            SceneEnum.MENU_DIFFICULTY: MenuDifficulty(self.window, self.clock, self.selection_highlight_menu_sound, self.selection_menu_sound),
+            SceneEnum.GAME: Game(self.window, self.clock),
+            SceneEnum.GAME_OVER: GameOver(self.window, self.clock)
         }
 
     

@@ -7,11 +7,10 @@ from typing import List
 import pygame
 from pygame import Surface
 from pygame.time import Clock
-from pygame.font import Font
 from pygame.sprite import Group
 from pygame.event import Event
 
-from constants.constants import SCREEN_HEIGHT, SCREEN_WIDTH
+from constants.constants import FONT_PATH, FONT_SIZE_BIG, FONT_SIZE_MEDIUM, FONT_SIZE_SMALL, SCREEN_HEIGHT, SCREEN_WIDTH
 from core.SceneEnum import SceneEnum
 from core.entities.Enemy import Enemy
 from core.entities.Player import Player
@@ -21,10 +20,12 @@ from utils.utils import fps_counter
 
 
 class Game(Scene):
-    def __init__(self, window: Surface, clock: Clock, font: Font) -> None:
+    def __init__(self, window: Surface, clock: Clock) -> None:
         self.window = window
         self.clock = clock
-        self.font = font
+        self.font_big = pygame.font.Font(FONT_PATH, FONT_SIZE_BIG)
+        self.font_medium = pygame.font.Font(FONT_PATH, FONT_SIZE_MEDIUM)
+        self.font_small = pygame.font.Font(FONT_PATH, FONT_SIZE_SMALL)
 
         self.is_paused = False
         self.direction = 1
@@ -36,7 +37,7 @@ class Game(Scene):
         self.difficulty = GAME_STATE.difficulty
         self.last_shot = -1
 
-        self.JOGO_PAUSADO_TEXT = self.font.render("JOGO PAUSADO!" , 1, pygame.Color("RED"))
+        self.JOGO_PAUSADO_TEXT = self.font_medium.render("JOGO PAUSADO!" , 1, pygame.Color("RED"))
 
     def draw(self):
         if self.is_paused:    
@@ -49,7 +50,14 @@ class Game(Scene):
         self.enemies_bullets.draw(self.window)
         self.enemies.draw(self.window)
 
-        fps_counter(self.window, self.clock, self.font)
+        self.__draw_text()
+
+
+    def __draw_text(self):
+        fps_counter(self.window, self.clock, self.font_small)
+        surf_info = self.font_small.render("WASD: Mover | ESPAÇO: Atirar | ESC: Sair", True, pygame.Color("GRAY"))
+        rect_info = surf_info.get_rect(bottomright=(SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20))
+        self.window.blit(surf_info, rect_info)
 
     
     def detect_enemy_bullet_collision(self):
