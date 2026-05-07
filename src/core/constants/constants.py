@@ -1,6 +1,7 @@
 
 # informações tecnicas do jogo
 from core.Difficulty import Difficulty, DifficultySettings
+from core.utils.utils import resolve_path
 
 
 FPS = 60
@@ -10,12 +11,20 @@ BULLET_SPEED = 500
 DT_DIVISOR = 1000.0
 SELECTED_COLOR_MENU = (30, 144, 255)
 UNSELECTED_COLOR_MENU = (176, 196, 222)
-FONT_PATH = "./src/fonts/PressStart2P-Regular.ttf"
 FONT_SIZE_BIG = 32
 FONT_SIZE_MEDIUM = 24
 FONT_SIZE_SMALL = 9
 
-
+class AssetsPaths:
+    FONT = resolve_path("assets/fonts/PressStart2P-Regular.ttf")
+    SPACE_HEROES = resolve_path('assets/musics/space_heroes.ogg')
+    MENU_HIGHLIGHT = resolve_path('assets/sounds/menu_highlight.ogg')
+    MENU_SELECTION = resolve_path('assets/sounds/menu_selection.wav')
+    LASER_SHOOT = resolve_path('assets/sounds/laser_shoot.wav')
+    CHICKEN_DEATH = resolve_path('assets/sounds/chicken_death.mp3')
+    SPACE = resolve_path('assets/images/space.png')
+    LASER_BULLET = resolve_path('assets/images/laserBullet.png')
+    SPACESHIP = resolve_path('assets/images/spaceship.png')
 
 DIFFICULTIES = {
     Difficulty.EASY: DifficultySettings(

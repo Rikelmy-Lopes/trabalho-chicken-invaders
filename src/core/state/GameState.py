@@ -1,4 +1,4 @@
-from constants.constants import DIFFICULTIES
+from core.constants.constants import DIFFICULTIES
 from core.Difficulty import Difficulty
 from core.SceneEnum import SceneEnum
 

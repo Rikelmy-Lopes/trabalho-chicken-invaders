@@ -3,7 +3,7 @@
 import pygame
 from pygame.mixer import Sound
 from pygame.sprite import Group
-from constants.constants import SCREEN_HEIGHT, SCREEN_WIDTH
+from core.constants.constants import SCREEN_HEIGHT, SCREEN_WIDTH, AssetsPaths
 from core.entities.Bullet import Bullet
 from core.entities.Entity import Entity
 from core.state.GameState import GAME_STATE
@@ -18,10 +18,10 @@ class Player(Entity):
     PLAYER_HEIGHT = 100
 
     def __init__(self, x: int, y: int):
-        super().__init__(x, y, BLUE_COLOR, (self.PLAYER_WIDTH, self.PLAYER_HEIGHT), './src/images/spaceship.png', 2)
+        super().__init__(x, y, BLUE_COLOR, (self.PLAYER_WIDTH, self.PLAYER_HEIGHT), AssetsPaths.SPACESHIP, 2)
         self.speed = GAME_STATE.difficulty.PLAYER_SPEED
         self.health = GAME_STATE.difficulty.PLAYER_HEALTH
-        self.shoot_sound = Sound('./src/sounds/laser_shoot.wav')
+        self.shoot_sound = Sound(AssetsPaths.LASER_SHOOT)
         self.shoot_sound.set_volume(0.5)
 
 

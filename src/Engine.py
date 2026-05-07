@@ -5,7 +5,7 @@ import sys
 import pygame
 from pygame.time import Clock
 from pygame.mixer import Sound
-from constants.constants import DT_DIVISOR, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
+from core.constants.constants import AssetsPaths, DT_DIVISOR, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
 from core.SceneEnum import SceneEnum
 from core.scenes.Game import Game
 from core.scenes.GameOver import GameOver
@@ -20,12 +20,12 @@ class Engine:
         pygame.init()
         pygame.display.set_caption("Chicken Invaders")
 
-        self.music = Sound('./src/sounds/space_heroes.ogg')
-        self.selection_highlight_menu_sound = Sound('./src/sounds/vgmenuhighlight.ogg')
-        self.selection_menu_sound = Sound('./src/sounds/menu_selection.wav')
+        self.music = Sound(AssetsPaths.SPACE_HEROES)
+        self.selection_highlight_menu_sound = Sound(AssetsPaths.MENU_HIGHLIGHT)
+        self.selection_menu_sound = Sound(AssetsPaths.MENU_SELECTION)
         self.window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
         self.clock = Clock()
-        self.fundo = pygame.image.load('./src/images/space.png').convert()
+        self.fundo = pygame.image.load(AssetsPaths.SPACE).convert()
         self.fundo = pygame.transform.scale(self.fundo, (SCREEN_WIDTH, SCREEN_HEIGHT))
         self.running = True
         self.current_scene: SceneEnum = SceneEnum.MENU
@@ -38,7 +38,7 @@ class Engine:
 
     
     def run(self):
-        self.music.set_volume(0.0)
+        self.music.set_volume(0.2)
         self.music.play(loops=-1)
         while self.running:
             self.window.blit(self.fundo, (0, 0))

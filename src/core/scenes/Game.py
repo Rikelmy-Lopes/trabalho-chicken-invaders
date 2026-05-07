@@ -10,22 +10,22 @@ from pygame.time import Clock
 from pygame.sprite import Group
 from pygame.event import Event
 
-from constants.constants import FONT_PATH, FONT_SIZE_BIG, FONT_SIZE_MEDIUM, FONT_SIZE_SMALL, SCREEN_HEIGHT, SCREEN_WIDTH
+from core.constants.constants import AssetsPaths, FONT_SIZE_BIG, FONT_SIZE_MEDIUM, FONT_SIZE_SMALL, SCREEN_HEIGHT, SCREEN_WIDTH
 from core.SceneEnum import SceneEnum
 from core.entities.Enemy import Enemy
 from core.entities.Player import Player
 from core.scenes.Scene import Scene
 from core.state.GameState import GAME_STATE
-from utils.utils import fps_counter
+from core.utils.utils import fps_counter
 
 
 class Game(Scene):
     def __init__(self, window: Surface, clock: Clock) -> None:
         self.window = window
         self.clock = clock
-        self.font_big = pygame.font.Font(FONT_PATH, FONT_SIZE_BIG)
-        self.font_medium = pygame.font.Font(FONT_PATH, FONT_SIZE_MEDIUM)
-        self.font_small = pygame.font.Font(FONT_PATH, FONT_SIZE_SMALL)
+        self.font_big = pygame.font.Font(AssetsPaths.FONT, FONT_SIZE_BIG)
+        self.font_medium = pygame.font.Font(AssetsPaths.FONT, FONT_SIZE_MEDIUM)
+        self.font_small = pygame.font.Font(AssetsPaths.FONT, FONT_SIZE_SMALL)
 
         self.is_paused = False
         self.direction = 1

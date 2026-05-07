@@ -3,6 +3,7 @@
 
 from pygame.mixer import Sound
 
+from core.constants.constants import AssetsPaths
 from core.entities.Entity import Entity
 from core.entities.EnemyBullet import EnemyBullet
 from pygame.sprite import Group
@@ -18,7 +19,7 @@ class Enemy(Entity):
         super().__init__(x, y, RED_COLOR, (50, 50), image_path)
         self.speed = GAME_STATE.difficulty.ENEMY_SPEED
         self.health = health
-        self.chicken_death = Sound('./src/sounds/chicken_death.mp3')
+        self.chicken_death = Sound(AssetsPaths.CHICKEN_DEATH)
         self.max_y = max_y
 
     def receive_damage(self, amount = 100):

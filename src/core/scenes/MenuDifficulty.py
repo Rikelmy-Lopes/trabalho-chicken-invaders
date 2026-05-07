@@ -7,7 +7,7 @@ from pygame.mixer import Sound
 from pygame.sprite import Group
 from pygame.event import Event
 
-from constants.constants import FONT_PATH, FONT_SIZE_BIG, FONT_SIZE_MEDIUM, FONT_SIZE_SMALL, SCREEN_HEIGHT, SCREEN_WIDTH, SELECTED_COLOR_MENU, UNSELECTED_COLOR_MENU
+from core.constants.constants import FONT_SIZE_BIG, FONT_SIZE_MEDIUM, FONT_SIZE_SMALL, SCREEN_HEIGHT, SCREEN_WIDTH, SELECTED_COLOR_MENU, UNSELECTED_COLOR_MENU, AssetsPaths
 from core.Difficulty import Difficulty
 from core.SceneEnum import SceneEnum
 from core.scenes.Scene import Scene
@@ -27,9 +27,9 @@ class MenuDifficulty(Scene):
     def __init__(self, window: Surface, clock: Clock, selection_highlight_menu_sound: Sound, selection_menu_sound: Sound) -> None:
         self.window = window
         self.clock = clock
-        self.font_big = pygame.font.Font(FONT_PATH, FONT_SIZE_BIG)
-        self.font_medium = pygame.font.Font(FONT_PATH, FONT_SIZE_MEDIUM)
-        self.font_small = pygame.font.Font(FONT_PATH, FONT_SIZE_SMALL)
+        self.font_big = pygame.font.Font(AssetsPaths.FONT, FONT_SIZE_BIG)
+        self.font_medium = pygame.font.Font(AssetsPaths.FONT, FONT_SIZE_MEDIUM)
+        self.font_small = pygame.font.Font(AssetsPaths.FONT, FONT_SIZE_SMALL)
         self.selection_highlight_menu_sound = selection_highlight_menu_sound
         self.selection_menu_sound = selection_menu_sound
         self.all_sprites = Group()
