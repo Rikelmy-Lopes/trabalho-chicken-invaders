@@ -18,7 +18,8 @@ class DifficultySettings:
         enemy_bullet_speed: int,
         player_speed: int,
         player_health: int,
-        max_player_bullets: int
+        player_max_bullets: int,
+        player_bullet_speed: int
     ):
         self.difficulty_value = difficulty_value
         self.ENEMY_AMOUNT = enemy_amount
@@ -28,4 +29,5 @@ class DifficultySettings:
         self.ENEMY_BULLET_SPEED = enemy_bullet_speed
         self.PLAYER_SPEED = player_speed
         self.PLAYER_HEALTH = player_health
-        self.MAX_PLAYER_BULLETS = max_player_bullets
+        self.PLAYER_MAX_BULLETS = player_max_bullets
+        self.PLAYER_BULLET_SPEED = player_bullet_speed

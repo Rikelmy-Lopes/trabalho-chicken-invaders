@@ -61,7 +61,7 @@ class Player(Entity):
 
 
     def shoot(self, bullets: Group):
-        if (len(bullets) == GAME_STATE.difficulty.MAX_PLAYER_BULLETS):
+        if (len(bullets) == GAME_STATE.difficulty.PLAYER_MAX_BULLETS):
             return
 
         if self.health <= 0:

@@ -7,7 +7,6 @@ from core.utils.utils import resolve_path
 FPS = 60
 SCREEN_WIDTH = 800
 SCREEN_HEIGHT = 600
-BULLET_SPEED = 500
 DT_DIVISOR = 1000.0
 SELECTED_COLOR_MENU = (30, 144, 255)
 UNSELECTED_COLOR_MENU = (176, 196, 222)
@@ -36,7 +35,8 @@ DIFFICULTIES = {
         enemy_bullet_speed=150,
         player_speed=200,
         player_health=300,
-        max_player_bullets=2
+        player_max_bullets=2,
+        player_bullet_speed=500
     ),
     Difficulty.NORMAL: DifficultySettings(
         Difficulty.NORMAL,
@@ -47,7 +47,8 @@ DIFFICULTIES = {
         enemy_bullet_speed=150,
         player_speed=200,
         player_health=200,
-        max_player_bullets=1
+        player_max_bullets=1,
+        player_bullet_speed=500
     ),
     Difficulty.HARD: DifficultySettings(
         Difficulty.HARD,
@@ -58,7 +59,8 @@ DIFFICULTIES = {
         enemy_bullet_speed=400,
         player_speed=100,
         player_health=100,
-        max_player_bullets=1
+        player_max_bullets=1,
+        player_bullet_speed=500
     ),
     Difficulty.VERY_HARD: DifficultySettings(
         Difficulty.VERY_HARD,
@@ -69,6 +71,7 @@ DIFFICULTIES = {
         enemy_bullet_speed=400,
         player_speed=100,
         player_health=100,
-        max_player_bullets=1
+        player_max_bullets=1,
+        player_bullet_speed=500
     )
 }
