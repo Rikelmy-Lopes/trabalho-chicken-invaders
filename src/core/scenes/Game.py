@@ -98,26 +98,30 @@ class Game(Scene):
             self.enemy_shot()
             self.detect_enemy_bullet_collision()
             self.detect_player_bullet_collision()
-    
+
+
     def add_enemies(self):
         if len(self.enemies) != 0:
             return
-        x = 50
+        
+        COLUMNS = 6
+        ROWS = GAME_STATE.difficulty.ENEMY_AMOUNT // COLUMNS
+        spacing  = Settings.SCREEN_WIDTH // (COLUMNS + 1)
         y = -100
-        max_y = 50
-        for _ in range(GAME_STATE.difficulty.ENEMY_AMOUNT): 
-            self.enemies.add(Enemy(x, y, max_y, GAME_STATE.difficulty.ENEMY_HEALTH))
-            x += 100
-            if x > Settings.SCREEN_WIDTH - 50:
-                x = 50
-                y += 100
-                max_y += 100
+        for row in range(ROWS):
+            for column in range(COLUMNS):
+                x = (column + 1) * spacing
+                self.enemies.add(Enemy(x, y, target_y=y + 150, health=GAME_STATE.difficulty.ENEMY_HEALTH))
+            y += 100
+
+
+
     
     def move_enemies(self, dt: float):
         has_hit_bord = False
         for enemy in self.enemies:
             enemy: Enemy
-            if enemy.rect.y >= enemy.max_y:
+            if enemy.rect.y >= enemy.target_y:
                 if (enemy.rect.x + enemy.rect.width) >= Settings.SCREEN_WIDTH or enemy.rect.x <= 0:
                     has_hit_bord = True
                     break
@@ -127,7 +131,7 @@ class Game(Scene):
 
         for enemy in self.enemies:
             enemy: Enemy
-            if enemy.rect.y < enemy.max_y:
+            if enemy.rect.y < enemy.target_y:
                 enemy.pos_y += (enemy.speed * dt) / 2
             else:
                 enemy.pos_x += (enemy.speed * dt) * self.direction
@@ -144,11 +148,12 @@ class Game(Scene):
 
         if now - self.last_shot > GAME_STATE.difficulty.ENEMY_BULLET_DELAY:
             enemy: Enemy = random.choice(self.enemies.sprites())
-            if enemy.rect.y >= enemy.max_y:
+            if enemy.rect.y >= enemy.target_y:
                 enemy.shoot(self.enemies_bullets)
                 self.last_shot = now
     
     def reset(self):
+        self.is_paused = False
         self.player = Player(round((Settings.SCREEN_WIDTH - 100) / 2), Settings.SCREEN_HEIGHT - 100)
         self.player_group = Group()
         self.player_bullets = Group()

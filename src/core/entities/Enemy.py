@@ -15,12 +15,12 @@ RED_COLOR = (255, 0, 0)
 
 class Enemy(Entity):
 
-    def __init__(self, x: int, y: int, max_y: int, health: int):
+    def __init__(self, x: int, y: int, target_y: int, health: int):
         super().__init__(x, y, RED_COLOR, (50, 50), image_path = AssetsPaths.CHICKEN, scale_factor=0.15)
         self.speed = GAME_STATE.difficulty.ENEMY_SPEED
         self.health = health
         self.chicken_death = Sound(AssetsPaths.CHICKEN_DEATH)
-        self.max_y = max_y
+        self.target_y = target_y
 
     def receive_damage(self, amount = 100):
         self.health -= amount
