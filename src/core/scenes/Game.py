@@ -10,7 +10,7 @@ from pygame.time import Clock
 from pygame.sprite import Group
 from pygame.event import Event
 
-from core.constants.constants import AssetsPaths, FONT_SIZE_BIG, FONT_SIZE_MEDIUM, FONT_SIZE_SMALL, SCREEN_HEIGHT, SCREEN_WIDTH
+from core.constants.constants import AssetsPaths, Settings
 from core.SceneEnum import SceneEnum
 from core.entities.Enemy import Enemy
 from core.entities.Player import Player
@@ -23,9 +23,9 @@ class Game(Scene):
     def __init__(self, window: Surface, clock: Clock) -> None:
         self.window = window
         self.clock = clock
-        self.font_big = pygame.font.Font(AssetsPaths.FONT, FONT_SIZE_BIG)
-        self.font_medium = pygame.font.Font(AssetsPaths.FONT, FONT_SIZE_MEDIUM)
-        self.font_small = pygame.font.Font(AssetsPaths.FONT, FONT_SIZE_SMALL)
+        self.font_big = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_BIG)
+        self.font_medium = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_MEDIUM)
+        self.font_small = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_SMALL)
 
         self.is_paused = False
         self.direction = 1
@@ -42,7 +42,7 @@ class Game(Scene):
     def draw(self):
         if self.is_paused:    
             retangulo_texto = self.JOGO_PAUSADO_TEXT.get_rect()
-            retangulo_texto.center = (SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2)
+            retangulo_texto.center = (Settings.SCREEN_WIDTH // 2, Settings.SCREEN_HEIGHT // 2)
             self.window.blit(self.JOGO_PAUSADO_TEXT,  retangulo_texto)
 
         self.player_group.draw(self.window)
@@ -56,7 +56,7 @@ class Game(Scene):
     def __draw_text(self):
         fps_counter(self.window, self.clock, self.font_small)
         surf_info = self.font_small.render("WASD: Mover | ESPAÇO: Atirar | ESC: Sair", True, pygame.Color("GRAY"))
-        rect_info = surf_info.get_rect(bottomright=(SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20))
+        rect_info = surf_info.get_rect(bottomright=(Settings.SCREEN_WIDTH - 20, Settings.SCREEN_HEIGHT - 20))
         self.window.blit(surf_info, rect_info)
 
     
@@ -108,7 +108,7 @@ class Game(Scene):
         for _ in range(GAME_STATE.difficulty.ENEMY_AMOUNT): 
             self.enemies.add(Enemy(x, y, max_y, GAME_STATE.difficulty.ENEMY_HEALTH))
             x += 100
-            if x > SCREEN_WIDTH - 50:
+            if x > Settings.SCREEN_WIDTH - 50:
                 x = 50
                 y += 100
                 max_y += 100
@@ -118,7 +118,7 @@ class Game(Scene):
         for enemy in self.enemies:
             enemy: Enemy
             if enemy.rect.y >= enemy.max_y:
-                if (enemy.rect.x + enemy.rect.width) >= SCREEN_WIDTH or enemy.rect.x <= 0:
+                if (enemy.rect.x + enemy.rect.width) >= Settings.SCREEN_WIDTH or enemy.rect.x <= 0:
                     has_hit_bord = True
                     break
 
@@ -149,7 +149,7 @@ class Game(Scene):
                 self.last_shot = now
     
     def reset(self):
-        self.player = Player(round((SCREEN_WIDTH - 100) / 2), SCREEN_HEIGHT - 100)
+        self.player = Player(round((Settings.SCREEN_WIDTH - 100) / 2), Settings.SCREEN_HEIGHT - 100)
         self.player_group = Group()
         self.player_bullets = Group()
         self.enemies_bullets = Group()

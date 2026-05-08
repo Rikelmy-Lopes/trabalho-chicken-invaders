@@ -1,4 +1,4 @@
-from core.constants.constants import SCREEN_HEIGHT, AssetsPaths
+from core.constants.constants import AssetsPaths, Settings
 from core.entities.Entity import Entity
 from core.state.GameState import GAME_STATE
 
@@ -15,5 +15,5 @@ class EnemyBullet(Entity):
         self.pos_y += self.speed * dt
         self.rect.y = round(self.pos_y)
         
-        if self.rect.y > SCREEN_HEIGHT:
+        if self.rect.y > Settings.SCREEN_HEIGHT:
             self.kill()

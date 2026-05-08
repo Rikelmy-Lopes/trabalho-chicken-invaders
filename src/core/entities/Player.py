@@ -3,7 +3,7 @@
 import pygame
 from pygame.mixer import Sound
 from pygame.sprite import Group
-from core.constants.constants import SCREEN_HEIGHT, SCREEN_WIDTH, AssetsPaths
+from core.constants.constants import Settings, AssetsPaths
 from core.entities.Bullet import Bullet
 from core.entities.Entity import Entity
 from core.state.GameState import GAME_STATE
@@ -40,13 +40,13 @@ class Player(Entity):
         if (keys[pygame.K_LEFT] or keys[pygame.K_a]) and self.rect.x > 0:
             self.pos_x -= self.speed * dt
 
-        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and (self.rect.x + self.rect.width) < SCREEN_WIDTH:
+        if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and (self.rect.x + self.rect.width) < Settings.SCREEN_WIDTH:
             self.pos_x += self.speed * dt
 
         if (keys[pygame.K_UP] or keys[pygame.K_w]) and self.rect.y > 0:
             self.pos_y -= self.speed * dt
 
-        if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and (self.rect.y + self.rect.height < SCREEN_HEIGHT):
+        if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and (self.rect.y + self.rect.height < Settings.SCREEN_HEIGHT):
             self.pos_y += self.speed * dt
 
         self.rect.x = round(self.pos_x)
@@ -55,8 +55,8 @@ class Player(Entity):
         # reseta a posicao do player caso ele ultrapasse os limites
         if (self.rect.x < 0):
             self.rect.x = 0
-        elif self.rect.x + self.rect.width > SCREEN_WIDTH:
-            self.rect.x = (SCREEN_WIDTH - self.rect.width)
+        elif self.rect.x + self.rect.width > Settings.SCREEN_WIDTH:
+            self.rect.x = (Settings.SCREEN_WIDTH - self.rect.width)
 
 
 

@@ -7,7 +7,7 @@ from pygame.mixer import Sound
 from pygame.sprite import Group
 from pygame.event import Event
 
-from core.constants.constants import FONT_SIZE_BIG, FONT_SIZE_MEDIUM, FONT_SIZE_SMALL, SCREEN_HEIGHT, SCREEN_WIDTH, SELECTED_COLOR_MENU, UNSELECTED_COLOR_MENU, AssetsPaths
+from core.constants.constants import Settings, AssetsPaths
 from core.SceneEnum import SceneEnum
 from core.scenes.Scene import Scene
 from core.state.GameState import GAME_STATE
@@ -18,15 +18,13 @@ QUIT = 'SAIR'
 
 
 class Menu(Scene):
-    SELECTED_COLOR = SELECTED_COLOR_MENU
-    UNSELECTED_COLOR = UNSELECTED_COLOR_MENU
 
     def __init__(self, window: Surface, clock: Clock, selection_highlight_menu_sound: Sound, selection_menu_sound: Sound) -> None:
         self.window = window
         self.clock = clock
-        self.font_big = pygame.font.Font(AssetsPaths.FONT, FONT_SIZE_BIG)
-        self.font_medium = pygame.font.Font(AssetsPaths.FONT, FONT_SIZE_MEDIUM)
-        self.font_small = pygame.font.Font(AssetsPaths.FONT, FONT_SIZE_SMALL)
+        self.font_big = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_BIG)
+        self.font_medium = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_MEDIUM)
+        self.font_small = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_SMALL)
         self.all_sprites = Group()
         self.selection_highlight_menu_sound = selection_highlight_menu_sound
         self.selection_menu_sound = selection_menu_sound
@@ -37,8 +35,8 @@ class Menu(Scene):
         self.__draw_text()
 
     def __draw_text(self):
-        color_start = self.SELECTED_COLOR if self.selected == 1 else self.UNSELECTED_COLOR
-        color_quit = self.SELECTED_COLOR if self.selected == 2 else self.UNSELECTED_COLOR
+        color_start = Settings.SELECTED_COLOR_MENU if self.selected == 1 else Settings.UNSELECTED_COLOR_MENU
+        color_quit = Settings.SELECTED_COLOR_MENU if self.selected == 2 else Settings.UNSELECTED_COLOR_MENU
 
         surf_title = self.font_big.render(TITLE, True, pygame.Color("RED"))
         surf_start = self.font_medium.render(START, True, color_start)
@@ -46,10 +44,10 @@ class Menu(Scene):
         surf_info = self.font_small.render("Cima/Baixo: Mover | Enter: Selecionar", True, pygame.Color("GRAY"))
         
         
-        rect_title = surf_title.get_rect(center=(SCREEN_WIDTH // 2, (SCREEN_HEIGHT // 2) - 100))
-        rect_start = surf_start.get_rect(center=(SCREEN_WIDTH // 2, SCREEN_HEIGHT // 2))
-        rect_quit = surf_quit.get_rect(center=(SCREEN_WIDTH // 2, (SCREEN_HEIGHT // 2) + 60))
-        rect_info = surf_info.get_rect(bottomright=(SCREEN_WIDTH - 20, SCREEN_HEIGHT - 20))
+        rect_title = surf_title.get_rect(center=(Settings.SCREEN_WIDTH // 2, (Settings.SCREEN_HEIGHT // 2) - 100))
+        rect_start = surf_start.get_rect(center=(Settings.SCREEN_WIDTH // 2, Settings.SCREEN_HEIGHT // 2))
+        rect_quit = surf_quit.get_rect(center=(Settings.SCREEN_WIDTH // 2, (Settings.SCREEN_HEIGHT // 2) + 60))
+        rect_info = surf_info.get_rect(bottomright=(Settings.SCREEN_WIDTH - 20, Settings.SCREEN_HEIGHT - 20))
 
         self.window.blit(surf_title, rect_title)
         self.window.blit(surf_start, rect_start)

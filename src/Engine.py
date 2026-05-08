@@ -5,7 +5,7 @@ import sys
 import pygame
 from pygame.time import Clock
 from pygame.mixer import Sound
-from core.constants.constants import AssetsPaths, DT_DIVISOR, FPS, SCREEN_HEIGHT, SCREEN_WIDTH
+from core.constants.constants import AssetsPaths, Settings
 from core.SceneEnum import SceneEnum
 from core.scenes.Game import Game
 from core.scenes.GameOver import GameOver
@@ -23,10 +23,10 @@ class Engine:
         self.music = Sound(AssetsPaths.SPACE_HEROES)
         self.selection_highlight_menu_sound = Sound(AssetsPaths.MENU_HIGHLIGHT)
         self.selection_menu_sound = Sound(AssetsPaths.MENU_SELECTION)
-        self.window = pygame.display.set_mode((SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.window = pygame.display.set_mode((Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT))
         self.clock = Clock()
         self.fundo = pygame.image.load(AssetsPaths.SPACE).convert()
-        self.fundo = pygame.transform.scale(self.fundo, (SCREEN_WIDTH, SCREEN_HEIGHT))
+        self.fundo = pygame.transform.scale(self.fundo, (Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT))
         self.running = True
         self.current_scene: SceneEnum = SceneEnum.MENU
         self.scenes: dict[SceneEnum, Scene] = {
@@ -43,7 +43,7 @@ class Engine:
         while self.running:
             self.window.blit(self.fundo, (0, 0))
             events = pygame.event.get()
-            dt = self.clock.tick(FPS) / DT_DIVISOR
+            dt = self.clock.tick(Settings.FPS) / Settings.DT_DIVISOR
 
             if self.current_scene != GAME_STATE.current_scene:
                 if GAME_STATE.current_scene == SceneEnum.GAME:
