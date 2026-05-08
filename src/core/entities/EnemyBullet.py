@@ -7,7 +7,7 @@ WHITE_COLOR = (255, 255, 255)
 class EnemyBullet(Entity):
         
     def __init__(self, x: int, y: int):
-        super().__init__(x, y, WHITE_COLOR, (5, 10), AssetsPaths.LASER_BULLET, 0.4)
+        super().__init__(x, y, WHITE_COLOR, (5, 10), AssetsPaths.EGG, 0.5)
         self.speed = GAME_STATE.difficulty.ENEMY_BULLET_SPEED
 
 

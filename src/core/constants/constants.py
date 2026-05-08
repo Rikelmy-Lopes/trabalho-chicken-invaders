@@ -25,6 +25,8 @@ class AssetsPaths:
     SPACE = resolve_path('assets/images/space.png')
     LASER_BULLET = resolve_path('assets/images/laserBullet.png')
     SPACESHIP = resolve_path('assets/images/spaceship.png')
+    CHICKEN = resolve_path('assets/images/chicken.png')
+    EGG = resolve_path('assets/images/egg.png')
 
 
 class Difficulties:
