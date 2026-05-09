@@ -1,5 +1,5 @@
 from pygame.mixer import Sound
-from core.constants.constants import AssetsPaths
+from core.constants.constants import AssetsPaths, Settings
 from core.entities.Entity import Entity
 from core.entities.EnemyBullet import EnemyBullet
 from pygame.sprite import Group
@@ -18,6 +18,7 @@ class Enemy(Entity):
     def receive_damage(self, amount = 100):
         self.health -= amount
         if self.health <= 0:
+            GAME_STATE.increase_score(Settings.SCORE_ENEMY_KILL)
             self.chicken_death.play()
             self.kill()
 

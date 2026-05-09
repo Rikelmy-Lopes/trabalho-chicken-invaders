@@ -29,13 +29,13 @@ class Game(Scene):
 
         self.is_paused = False
         self.direction = 1
+        self.enemy_last_shot = -1
+        self.last_score = -1
         self.player: Player
         self.player_group = Group()
         self.player_bullets = Group()
         self.enemies_bullets = Group()
         self.enemies = Group()
-        self.difficulty = GAME_STATE.difficulty
-        self.enemy_last_shot = -1
 
         self.JOGO_PAUSADO_TEXT = self.font_medium.render("JOGO PAUSADO!" , 1, pygame.Color("RED"))
 
@@ -101,6 +101,7 @@ class Game(Scene):
             self.enemy_shot()
             self.detect_enemy_bullet_collision()
             self.detect_player_bullet_collision()
+            self.increase_score_over_time()
 
 
     def add_enemies(self):
@@ -135,7 +136,7 @@ class Game(Scene):
         for enemy in self.enemies:
             enemy: Enemy
             if enemy.rect.y < enemy.target_y:
-                enemy.pos_y += (enemy.speed * dt) / 2
+                enemy.pos_y += enemy.speed * dt
             else:
                 enemy.pos_x += (enemy.speed * dt) * self.direction
             enemy.rect.y = round(enemy.pos_y)
@@ -154,15 +155,24 @@ class Game(Scene):
             if enemy.rect.y >= enemy.target_y:
                 enemy.shoot(self.enemies_bullets)
                 self.enemy_last_shot = now
+
+    def increase_score_over_time(self):
+        now = time.time_ns() // 1_000_000
+        
+        if now - self.last_score > 1_000:
+            GAME_STATE.increase_score(Settings.SCORE_OVER_TIME)
+            self.last_score = now
     
     def reset(self):
         self.is_paused = False
+        self.direction = 1
+        self.enemy_last_shot = -1
+        self.last_score = -1
         self.player = Player(round((Settings.SCREEN_WIDTH - 100) / 2), Settings.SCREEN_HEIGHT - 100)
         self.player_group = Group()
         self.player_bullets = Group()
         self.enemies_bullets = Group()
         self.enemies = Group()
-
         self.add_enemies()
-
         self.player_group.add(self.player)
+        GAME_STATE.reset()

@@ -13,6 +13,8 @@ class Settings:
     FONT_SIZE_BIG = 32
     FONT_SIZE_MEDIUM = 24
     FONT_SIZE_SMALL = 9
+    SCORE_OVER_TIME = 5
+    SCORE_ENEMY_KILL = 250
 
 
 class AssetsPaths:

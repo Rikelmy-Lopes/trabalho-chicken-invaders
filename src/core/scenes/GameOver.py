@@ -24,14 +24,20 @@ class GameOver(Scene):
         self.__draw_text()
 
     def __draw_text(self):
-        surf_game_over = self.font_big.render("GAME OVER! Voçê Morreu!" , 1, pygame.Color("RED"))
+        surf_game_over = self.font_big.render("GAME OVER! Voçê Morreu!", 1, pygame.Color("RED"))
         rect_game_over = surf_game_over.get_rect()
         rect_game_over.center = (Settings.SCREEN_WIDTH // 2, Settings.SCREEN_HEIGHT // 2)
+
+        surf_score = self.font_medium.render(f"Pontuação: {GAME_STATE.score}", True, pygame.Color("WHITE"))
+        rect_score = surf_score.get_rect()
+        rect_score.center = (Settings.SCREEN_WIDTH // 2, rect_game_over.bottom + 60)
+
         surf_info = self.font_small.render("ESC: Sair", True, pygame.Color("GRAY"))
         rect_info = surf_info.get_rect(bottomright=(Settings.SCREEN_WIDTH - 20, Settings.SCREEN_HEIGHT - 20))
         
         self.window.blit(surf_info, rect_info)
         self.window.blit(surf_game_over, rect_game_over)
+        self.window.blit(surf_score, rect_score)
     
     def update(self, events: list[Event], dt: float):
         for event in events:

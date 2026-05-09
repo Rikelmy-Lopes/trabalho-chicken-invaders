@@ -29,5 +29,8 @@ class _GameState:
     def set_current_scene(self, scene: SceneEnum):
         self.current_scene = scene
 
+    def reset(self):
+        self.score = 0
+
 
 GAME_STATE = _GameState()
