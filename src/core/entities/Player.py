@@ -43,7 +43,7 @@ class Player(Entity):
         if (keys[pygame.K_RIGHT] or keys[pygame.K_d]) and (self.rect.x + self.rect.width) < Settings.SCREEN_WIDTH:
             self.pos_x += self.speed * dt
 
-        if (keys[pygame.K_UP] or keys[pygame.K_w]) and self.rect.y > 0:
+        if (keys[pygame.K_UP] or keys[pygame.K_w]) and self.rect.y > 0 and self.rect.y > (Settings.SCREEN_HEIGHT // 2):
             self.pos_y -= self.speed * dt
 
         if (keys[pygame.K_DOWN] or keys[pygame.K_s]) and (self.rect.y + self.rect.height < Settings.SCREEN_HEIGHT):
@@ -51,12 +51,6 @@ class Player(Entity):
 
         self.rect.x = round(self.pos_x)
         self.rect.y = round(self.pos_y)
-        
-        # reseta a posicao do player caso ele ultrapasse os limites
-        if (self.rect.x < 0):
-            self.rect.x = 0
-        elif self.rect.x + self.rect.width > Settings.SCREEN_WIDTH:
-            self.rect.x = (Settings.SCREEN_WIDTH - self.rect.width)
 
 
 
