@@ -19,8 +19,6 @@ class Engine:
     def __init__(self) -> None:
         pygame.init()
         pygame.display.set_caption("Chicken Invaders")
-
-        self.music = Sound(AssetsPaths.SPACE_HEROES)
         self.selection_highlight_menu_sound = Sound(AssetsPaths.MENU_HIGHLIGHT)
         self.selection_menu_sound = Sound(AssetsPaths.MENU_SELECTION)
         self.window = pygame.display.set_mode((Settings.SCREEN_WIDTH, Settings.SCREEN_HEIGHT))
@@ -38,8 +36,6 @@ class Engine:
 
     
     def run(self):
-        self.music.set_volume(0.2)
-        self.music.play(loops=-1)
         while self.running:
             self.window.blit(self.fundo, (0, 0))
             events = pygame.event.get()

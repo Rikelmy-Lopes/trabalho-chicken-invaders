@@ -9,6 +9,7 @@ from pygame import Surface
 from pygame.time import Clock
 from pygame.sprite import Group
 from pygame.event import Event
+from pygame.mixer import Sound
 
 from core.constants.constants import AssetsPaths, Settings
 from core.SceneEnum import SceneEnum
@@ -26,6 +27,10 @@ class Game(Scene):
         self.font_big = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_BIG)
         self.font_medium = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_MEDIUM)
         self.font_small = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_SMALL)
+        self.music = Sound(AssetsPaths.SPACE_HEROES)
+        self.music.set_volume(0.2)
+        self.game_over_sound = Sound(AssetsPaths.GAME_OVER_SOUND)
+        self.game_over_sound.set_volume(0.5)
 
         self.is_paused = False
         self.direction = 1
@@ -75,7 +80,10 @@ class Game(Scene):
 
     def detect_game_over(self):
         if self.player.health <= 0:
+            self.music.fadeout(0)
+            self.music.stop()
             GAME_STATE.current_scene = SceneEnum.GAME_OVER
+            self.game_over_sound.play()
 
 
     def update(self, events: list[Event], dt: float):
@@ -89,6 +97,8 @@ class Game(Scene):
                 if event.key == pygame.K_p:
                     self.is_paused = not self.is_paused
                 if event.key == pygame.K_ESCAPE:
+                    self.music.fadeout(0)
+                    self.music.stop()
                     GAME_STATE.current_scene = SceneEnum.MENU
 
         if not self.is_paused:
@@ -176,3 +186,4 @@ class Game(Scene):
         self.add_enemies()
         self.player_group.add(self.player)
         GAME_STATE.reset()
+        self.music.play(loops=-1)

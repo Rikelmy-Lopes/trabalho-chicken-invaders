@@ -21,6 +21,7 @@ class AssetsPaths:
     FONT = resolve_path("assets/fonts/PressStart2P-Regular.ttf")
     SPACE_HEROES = resolve_path('assets/musics/space_heroes.ogg')
     MENU_HIGHLIGHT = resolve_path('assets/sounds/menu_highlight.ogg')
+    GAME_OVER_SOUND = resolve_path('assets/sounds/game_over_sound.ogg')
     MENU_SELECTION = resolve_path('assets/sounds/menu_selection.wav')
     LASER_SHOOT = resolve_path('assets/sounds/laser_shoot.wav')
     CHICKEN_DEATH = resolve_path('assets/sounds/chicken_death.mp3')
