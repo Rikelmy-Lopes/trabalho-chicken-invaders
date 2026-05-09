@@ -1,4 +1,7 @@
+
+
 import pygame
+import time
 from pygame.mixer import Sound
 from pygame.sprite import Group
 from core.constants.constants import Settings, AssetsPaths
@@ -16,6 +19,7 @@ class Player(Entity):
         self.health = GAME_STATE.difficulty.PLAYER_HEALTH
         self.shoot_sound = Sound(AssetsPaths.LASER_SHOOT)
         self.shoot_sound.set_volume(0.5)
+        self.last_shot = -1
 
 
     def update(self, dt: float) -> None:
@@ -25,7 +29,10 @@ class Player(Entity):
     def handle_input(self, event: Event, player_bullets: Group):
         if event.type == pygame.KEYDOWN:
             if event.key == pygame.K_SPACE:
-                self.shoot(player_bullets)
+                now = time.time_ns() // 1_000_000
+                if now - self.last_shot > GAME_STATE.difficulty.PLAYER_FIRE_RATE:
+                    self.shoot(player_bullets)
+                    self.last_shot = now
 
     def move(self, dt: float):
         keys = pygame.key.get_pressed()
@@ -54,9 +61,6 @@ class Player(Entity):
 
 
     def shoot(self, bullets: Group):
-        if (len(bullets) == GAME_STATE.difficulty.PLAYER_MAX_BULLETS):
-            return
-
         if self.health <= 0:
             return
         

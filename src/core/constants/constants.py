@@ -35,12 +35,12 @@ class Difficulties:
         enemy_amount=6,
         enemy_health=100,
         enemy_speed=50,
-        enemy_bullet_delay=1000,
+        enemy_fire_rate=1000,
         enemy_bullet_speed=150,
         player_speed=200,
         player_health=300,
-        player_max_bullets=2,
-        player_bullet_speed=500
+        player_bullet_speed=500,
+        player_fire_rate=1000
     )
 
     NORMAL = DifficultySettings(
@@ -48,12 +48,12 @@ class Difficulties:
         enemy_amount=6,
         enemy_health=200,
         enemy_speed=50,
-        enemy_bullet_delay=1000,
+        enemy_fire_rate=1000,
         enemy_bullet_speed=150,
         player_speed=200,
         player_health=200,
-        player_max_bullets=1,
-        player_bullet_speed=400
+        player_bullet_speed=400,
+        player_fire_rate=1250
     )
 
     HARD = DifficultySettings(
@@ -61,12 +61,12 @@ class Difficulties:
         enemy_amount=12,
         enemy_health=200,
         enemy_speed=75,
-        enemy_bullet_delay=1000,
+        enemy_fire_rate=1000,
         enemy_bullet_speed=250,
         player_speed=150,
         player_health=100,
-        player_max_bullets=1,
-        player_bullet_speed=300
+        player_bullet_speed=300,
+        player_fire_rate=1500
     )
 
     VERY_HARD = DifficultySettings(
@@ -74,12 +74,12 @@ class Difficulties:
         enemy_amount=12,
         enemy_health=300,
         enemy_speed=75,
-        enemy_bullet_delay=800,
+        enemy_fire_rate=800,
         enemy_bullet_speed=300,
         player_speed=150,
         player_health=100,
-        player_max_bullets=1,
-        player_bullet_speed=300
+        player_bullet_speed=300,
+        player_fire_rate=1500
     )
 
     @staticmethod

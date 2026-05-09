@@ -35,7 +35,7 @@ class Game(Scene):
         self.enemies_bullets = Group()
         self.enemies = Group()
         self.difficulty = GAME_STATE.difficulty
-        self.last_shot = -1
+        self.enemy_last_shot = -1
 
         self.JOGO_PAUSADO_TEXT = self.font_medium.render("JOGO PAUSADO!" , 1, pygame.Color("RED"))
 
@@ -73,6 +73,11 @@ class Game(Scene):
         if hits:
             self.player.receive_damage()
 
+    def detect_game_over(self):
+        if self.player.health <= 0:
+            GAME_STATE.current_scene = SceneEnum.GAME_OVER
+
+
     def update(self, events: list[Event], dt: float):
         for event in events:
             self.player.handle_input(event, self.player_bullets)
@@ -86,13 +91,11 @@ class Game(Scene):
                 if event.key == pygame.K_ESCAPE:
                     GAME_STATE.current_scene = SceneEnum.MENU
 
-        if self.player.health <= 0:
-            GAME_STATE.current_scene = SceneEnum.GAME_OVER
-
         if not self.is_paused:
             self.player_group.update(dt)
             self.player_bullets.update(dt)
             self.enemies_bullets.update(dt)
+            self.detect_game_over()
             self.move_enemies(dt)   
             self.add_enemies()
             self.enemy_shot()
@@ -108,7 +111,7 @@ class Game(Scene):
         ROWS = GAME_STATE.difficulty.ENEMY_AMOUNT // COLUMNS
         spacing  = Settings.SCREEN_WIDTH // (COLUMNS + 1)
         y = -100
-        for row in range(ROWS):
+        for _row in range(ROWS):
             for column in range(COLUMNS):
                 x = (column + 1) * spacing
                 self.enemies.add(Enemy(x, y, target_y=y + 150, health=GAME_STATE.difficulty.ENEMY_HEALTH))
@@ -146,11 +149,11 @@ class Game(Scene):
         
         now = time.time_ns() // 1_000_000
 
-        if now - self.last_shot > GAME_STATE.difficulty.ENEMY_BULLET_DELAY:
+        if now - self.enemy_last_shot > GAME_STATE.difficulty.ENEMY_FIRE_RATE:
             enemy: Enemy = random.choice(self.enemies.sprites())
             if enemy.rect.y >= enemy.target_y:
                 enemy.shoot(self.enemies_bullets)
-                self.last_shot = now
+                self.enemy_last_shot = now
     
     def reset(self):
         self.is_paused = False
