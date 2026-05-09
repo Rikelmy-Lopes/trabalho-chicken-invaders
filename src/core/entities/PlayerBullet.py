@@ -2,12 +2,10 @@ from core.constants.constants import AssetsPaths
 from core.entities.Entity import Entity
 from core.state.GameState import GAME_STATE
 
-WHITE_COLOR = (255, 255, 255)
-
-class Bullet(Entity):
+class PlayerBullet(Entity):
         
     def __init__(self, x: int, y: int):
-        super().__init__(x, y, WHITE_COLOR, (5, 10), AssetsPaths.LASER_BULLET, 0.4)
+        super().__init__(x=x, y=y, image_path=AssetsPaths.LASER_BULLET, scale_factor=0.4)
         self.speed = GAME_STATE.difficulty.PLAYER_BULLET_SPEED
 
 

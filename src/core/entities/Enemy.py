@@ -1,22 +1,15 @@
-
-
-
 from pygame.mixer import Sound
-
 from core.constants.constants import AssetsPaths
 from core.entities.Entity import Entity
 from core.entities.EnemyBullet import EnemyBullet
 from pygame.sprite import Group
-
 from core.state.GameState import GAME_STATE
-
-RED_COLOR = (255, 0, 0)
 
 
 class Enemy(Entity):
 
     def __init__(self, x: int, y: int, target_y: int, health: int):
-        super().__init__(x, y, RED_COLOR, (50, 50), image_path = AssetsPaths.CHICKEN, scale_factor=0.15)
+        super().__init__(x=x, y=y, image_path=AssetsPaths.CHICKEN, scale_factor=0.15)
         self.speed = GAME_STATE.difficulty.ENEMY_SPEED
         self.health = health
         self.chicken_death = Sound(AssetsPaths.CHICKEN_DEATH)
@@ -32,4 +25,3 @@ class Enemy(Entity):
         
         new_bullet = EnemyBullet(self.rect.centerx, self.rect.top)
         bullets.add(new_bullet)
-        # self.shoot_sound.play()

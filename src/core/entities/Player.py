@@ -1,24 +1,17 @@
-
-
 import pygame
 from pygame.mixer import Sound
 from pygame.sprite import Group
 from core.constants.constants import Settings, AssetsPaths
-from core.entities.Bullet import Bullet
+from core.entities.PlayerBullet import PlayerBullet
 from core.entities.Entity import Entity
 from core.state.GameState import GAME_STATE
 from pygame.event import Event
 
-BLUE_COLOR = (0, 0, 255)
-
-
 
 class Player(Entity):
-    PLAYER_WIDTH = 100
-    PLAYER_HEIGHT = 100
 
     def __init__(self, x: int, y: int):
-        super().__init__(x, y, BLUE_COLOR, (self.PLAYER_WIDTH, self.PLAYER_HEIGHT), AssetsPaths.SPACESHIP, 2)
+        super().__init__(x=x, y=y, image_path=AssetsPaths.SPACESHIP, scale_factor=2)
         self.speed = GAME_STATE.difficulty.PLAYER_SPEED
         self.health = GAME_STATE.difficulty.PLAYER_HEALTH
         self.shoot_sound = Sound(AssetsPaths.LASER_SHOOT)
@@ -67,7 +60,7 @@ class Player(Entity):
         if self.health <= 0:
             return
         
-        new_bullet = Bullet(self.rect.centerx, self.rect.top)
+        new_bullet = PlayerBullet(self.rect.centerx, self.rect.top)
         bullets.add(new_bullet)
         self.shoot_sound.play()
 
