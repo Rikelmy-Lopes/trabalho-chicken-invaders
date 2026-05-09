@@ -26,6 +26,7 @@ class Game(Scene):
         self.clock = clock
         self.font_big = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_BIG)
         self.font_medium = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_MEDIUM)
+        self.font_regular = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_REGULAR)
         self.font_small = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_SMALL)
         self.music = Sound(AssetsPaths.SPACE_HEROES)
         self.music.set_volume(0.2)
@@ -60,9 +61,13 @@ class Game(Scene):
 
     def __draw_text(self):
         fps_counter(self.window, self.clock, self.font_small)
+        surf_player_health = self.font_regular.render(f"Vida: {self.player.health}", True, pygame.Color("GRAY"))
+        rect_player_health = surf_player_health.get_rect(topleft = (0, 20))
+        
         surf_info = self.font_small.render("WASD: Mover | ESPAÇO: Atirar | ESC: Sair", True, pygame.Color("GRAY"))
         rect_info = surf_info.get_rect(bottomright=(Settings.SCREEN_WIDTH - 20, Settings.SCREEN_HEIGHT - 20))
         self.window.blit(surf_info, rect_info)
+        self.window.blit(surf_player_health, rect_player_health)
 
     
     def detect_enemy_bullet_collision(self):
