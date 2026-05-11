@@ -44,6 +44,9 @@ class Engine:
             if self.current_scene != GAME_STATE.current_scene:
                 if GAME_STATE.current_scene == SceneEnum.GAME:
                     self.scenes[SceneEnum.GAME].reset()
+                
+                if GAME_STATE.current_scene == SceneEnum.GAME_OVER:
+                    self.scenes[SceneEnum.GAME_OVER].reset()
 
                 self.current_scene = GAME_STATE.current_scene
 

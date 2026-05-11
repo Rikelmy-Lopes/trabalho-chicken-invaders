@@ -30,8 +30,6 @@ class Game(Scene):
         self.font_small = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_SMALL)
         self.music = Sound(AssetsPaths.SPACE_HEROES)
         self.music.set_volume(0.2)
-        self.game_over_sound = Sound(AssetsPaths.GAME_OVER_SOUND)
-        self.game_over_sound.set_volume(0.5)
 
         self.is_paused = False
         self.direction = 1
@@ -88,7 +86,6 @@ class Game(Scene):
             self.music.fadeout(0)
             self.music.stop()
             GAME_STATE.current_scene = SceneEnum.GAME_OVER
-            self.game_over_sound.play()
 
 
     def update(self, events: list[Event], dt: float):

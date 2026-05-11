@@ -7,6 +7,7 @@ from core.SceneEnum import SceneEnum
 from core.scenes.Scene import Scene
 from pygame import Surface
 from pygame.time import Clock
+from pygame.mixer import Sound
 
 from core.state.GameState import GAME_STATE
 
@@ -19,6 +20,8 @@ class GameOver(Scene):
         self.font_big = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_BIG)
         self.font_medium = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_MEDIUM)
         self.font_small = pygame.font.Font(AssetsPaths.FONT, Settings.FONT_SIZE_SMALL)
+        self.game_over_sound = Sound(AssetsPaths.GAME_OVER_SOUND)
+        self.game_over_sound.set_volume(0.5)
 
     def draw(self) -> None:
         self.__draw_text()
@@ -45,8 +48,9 @@ class GameOver(Scene):
                 GAME_STATE.current_scene = SceneEnum.EXIT
             if event.type == pygame.KEYDOWN:
                 if event.key == pygame.K_ESCAPE:
+                    self.game_over_sound.stop()
                     GAME_STATE.current_scene = SceneEnum.MENU
     
 
     def reset(self) -> None:
-        pass
+        self.game_over_sound.play()
