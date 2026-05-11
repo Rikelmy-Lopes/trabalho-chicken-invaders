@@ -42,17 +42,20 @@ class Menu(Scene):
         surf_start = self.font_medium.render(START, True, color_start)
         surf_quit = self.font_medium.render(QUIT, True, color_quit)
         surf_info = self.font_small.render("Cima/Baixo: Mover | Enter: Selecionar", True, pygame.Color("GRAY"))
+        surf_made_by = self.font_small.render("Feito por: Rikelmy Lopes", True, pygame.Color("GRAY"))
         
         
         rect_title = surf_title.get_rect(center=(Settings.SCREEN_WIDTH // 2, (Settings.SCREEN_HEIGHT // 2) - 100))
         rect_start = surf_start.get_rect(center=(Settings.SCREEN_WIDTH // 2, Settings.SCREEN_HEIGHT // 2))
         rect_quit = surf_quit.get_rect(center=(Settings.SCREEN_WIDTH // 2, (Settings.SCREEN_HEIGHT // 2) + 60))
         rect_info = surf_info.get_rect(bottomright=(Settings.SCREEN_WIDTH - 20, Settings.SCREEN_HEIGHT - 20))
+        rect_made_by = surf_made_by.get_rect(bottomleft=(10, Settings.SCREEN_HEIGHT - 20))
 
         self.window.blit(surf_title, rect_title)
         self.window.blit(surf_start, rect_start)
         self.window.blit(surf_quit, rect_quit)
         self.window.blit(surf_info, rect_info)
+        self.window.blit(surf_made_by, rect_made_by)
 
     def update(self, events: list[Event], dt: float):
         for event in events:
