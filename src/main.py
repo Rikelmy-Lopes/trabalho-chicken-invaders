@@ -1,4 +1,4 @@
-from core.Engine import Engine
+from Engine import Engine
 
 
 Engine().run()
