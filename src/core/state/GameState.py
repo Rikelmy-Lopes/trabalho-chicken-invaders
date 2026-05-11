@@ -14,6 +14,7 @@ class _GameState:
         if cls._instance is None:
             cls._instance = super().__new__(cls)
             cls._instance.score = 0
+            cls._instance.level = 0
             cls._instance.difficulty = Difficulties.NORMAL
             cls._instance.current_scene = SceneEnum.MENU
 
@@ -29,8 +30,12 @@ class _GameState:
     def set_current_scene(self, scene: SceneEnum):
         self.current_scene = scene
 
+    def increase_level(self):
+        self.level += 1
+
     def reset(self):
         self.score = 0
+        self.level = 0
 
 
 GAME_STATE = _GameState()

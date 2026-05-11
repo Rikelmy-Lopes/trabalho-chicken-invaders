@@ -12,6 +12,7 @@ from core.scenes.GameOver import GameOver
 from core.scenes.Menu import Menu
 from core.scenes.MenuDifficulty import MenuDifficulty
 from core.scenes.Scene import Scene
+from core.scenes.Victory import Victory
 from core.state.GameState import GAME_STATE
 
 
@@ -31,6 +32,7 @@ class Engine:
             SceneEnum.MENU: Menu(self.window, self.clock, self.selection_highlight_menu_sound, self.selection_menu_sound),
             SceneEnum.MENU_DIFFICULTY: MenuDifficulty(self.window, self.clock, self.selection_highlight_menu_sound, self.selection_menu_sound),
             SceneEnum.GAME: Game(self.window, self.clock),
+            SceneEnum.VICTORY: Victory(self.window, self.clock),
             SceneEnum.GAME_OVER: GameOver(self.window, self.clock)
         }
 
@@ -45,6 +47,8 @@ class Engine:
                 if GAME_STATE.current_scene == SceneEnum.GAME:
                     self.scenes[SceneEnum.GAME].reset()
                 
+                if GAME_STATE.current_scene == SceneEnum.VICTORY:
+                    self.scenes[SceneEnum.VICTORY].reset()
                 if GAME_STATE.current_scene == SceneEnum.GAME_OVER:
                     self.scenes[SceneEnum.GAME_OVER].reset()
 
