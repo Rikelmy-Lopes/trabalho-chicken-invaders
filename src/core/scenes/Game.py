@@ -87,6 +87,12 @@ class Game(Scene):
             self.music.stop()
             GAME_STATE.current_scene = SceneEnum.GAME_OVER
 
+    def detect_victory(self):
+        if GAME_STATE.level == 4:
+            self.music.fadeout(0)
+            self.music.stop()
+            GAME_STATE.current_scene = SceneEnum.VICTORY
+
 
     def update(self, events: list[Event], dt: float):
         for event in events:
@@ -107,6 +113,7 @@ class Game(Scene):
             self.player_group.update(dt)
             self.player_bullets.update(dt)
             self.enemies_bullets.update(dt)
+            self.detect_victory()
             self.detect_game_over()
             self.move_enemies(dt)   
             self.add_enemies()
@@ -129,6 +136,8 @@ class Game(Scene):
                 x = (column + 1) * spacing
                 self.enemies.add(Enemy(x, y, target_y=y + 150, health=GAME_STATE.difficulty.ENEMY_HEALTH))
             y += 100
+
+        GAME_STATE.increase_level()
 
 
 
@@ -162,16 +171,19 @@ class Game(Scene):
         
         now = time.time_ns() // 1_000_000
 
-        if now - self.enemy_last_shot > GAME_STATE.difficulty.ENEMY_FIRE_RATE:
+        enemy_fire_rate = (GAME_STATE.difficulty.ENEMY_FIRE_RATE * 1.5) if len(self.enemies) == 1 else GAME_STATE.difficulty.ENEMY_FIRE_RATE
+
+        if now - self.enemy_last_shot >= enemy_fire_rate:
             enemy: Enemy = random.choice(self.enemies.sprites())
             if enemy.rect.y >= enemy.target_y:
                 enemy.shoot(self.enemies_bullets)
                 self.enemy_last_shot = now
 
     def increase_score_over_time(self):
+        ONE_SECOND = 1_000
         now = time.time_ns() // 1_000_000
         
-        if now - self.last_score > 1_000:
+        if now - self.last_score > ONE_SECOND:
             GAME_STATE.increase_score(Settings.SCORE_OVER_TIME)
             self.last_score = now
     
@@ -185,7 +197,7 @@ class Game(Scene):
         self.player_bullets = Group()
         self.enemies_bullets = Group()
         self.enemies = Group()
+        GAME_STATE.reset()
         self.add_enemies()
         self.player_group.add(self.player)
-        GAME_STATE.reset()
         self.music.play(loops=-1)

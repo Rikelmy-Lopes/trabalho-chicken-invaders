@@ -24,6 +24,7 @@ class AssetsPaths:
     GAME_OVER_SOUND = resolve_path('assets/sounds/game_over_sound.ogg')
     MENU_SELECTION = resolve_path('assets/sounds/menu_selection.wav')
     LASER_SHOOT = resolve_path('assets/sounds/laser_shoot.wav')
+    VICTORY_SOUND = resolve_path('assets/sounds/victory.wav')
     CHICKEN_DEATH = resolve_path('assets/sounds/chicken_death.mp3')
     SPACE = resolve_path('assets/images/space.png')
     LASER_BULLET = resolve_path('assets/images/laserBullet.png')
