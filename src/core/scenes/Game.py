@@ -64,7 +64,7 @@ class Game(Scene):
         surf_player_health = self.font_regular.render(f"Vida: {self.player.health}", True, pygame.Color("GRAY"))
         rect_player_health = surf_player_health.get_rect(topleft = (0, 20))
         
-        surf_info = self.font_small.render("WASD: Mover | ESPAÇO: Atirar | ESC: Sair", True, pygame.Color("GRAY"))
+        surf_info = self.font_small.render("WASD: Mover | ESPAÇO: Atirar | P: Pausar | ESC: Sair", True, pygame.Color("GRAY"))
         rect_info = surf_info.get_rect(bottomright=(Settings.SCREEN_WIDTH - 20, Settings.SCREEN_HEIGHT - 20))
         self.window.blit(surf_info, rect_info)
         self.window.blit(surf_player_health, rect_player_health)
