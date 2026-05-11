@@ -6,7 +6,7 @@ import pygame
 from pygame.time import Clock
 from pygame.mixer import Sound
 from core.constants.constants import AssetsPaths, Settings
-from core.SceneEnum import SceneEnum
+from core.enums.SceneEnum import SceneEnum
 from core.scenes.Game import Game
 from core.scenes.GameOver import GameOver
 from core.scenes.Menu import Menu

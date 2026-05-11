@@ -8,8 +8,8 @@ from pygame.sprite import Group
 from pygame.event import Event
 
 from core.constants.constants import Settings, AssetsPaths
-from core.Difficulty import Difficulty
-from core.SceneEnum import SceneEnum
+from core.enums.DifficultyEnum import DifficultyEnum
+from core.enums.SceneEnum import SceneEnum
 from core.scenes.Scene import Scene
 from core.state.GameState import GAME_STATE
 
@@ -89,7 +89,7 @@ class MenuDifficulty(Scene):
                 self.move_selection(event)
                 if event.key == pygame.K_RETURN:
                     self.selection_menu_sound.play()
-                    GAME_STATE.update_difficulty(Difficulty(self.selected_difficulty))
+                    GAME_STATE.update_difficulty(DifficultyEnum(self.selected_difficulty))
                     GAME_STATE.current_scene = SceneEnum.GAME
                 if event.key == pygame.K_ESCAPE:
                     self.selection_menu_sound.play()

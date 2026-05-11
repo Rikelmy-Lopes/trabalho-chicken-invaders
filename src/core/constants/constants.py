@@ -1,6 +1,5 @@
-
-# informações tecnicas do jogo
-from core.Difficulty import Difficulty, DifficultySettings
+from core.constants.DifficultySettings import DifficultySettings
+from core.enums.DifficultyEnum import DifficultyEnum
 from core.utils.utils import resolve_path
 
 class Settings:
@@ -35,7 +34,7 @@ class AssetsPaths:
 
 class Difficulties:
     EASY = DifficultySettings(
-        difficulty_value=Difficulty.EASY,
+        difficulty_value=DifficultyEnum.EASY,
         enemy_amount=6,
         enemy_health=100,
         enemy_speed=50,
@@ -48,7 +47,7 @@ class Difficulties:
     )
 
     NORMAL = DifficultySettings(
-        difficulty_value=Difficulty.NORMAL,
+        difficulty_value=DifficultyEnum.NORMAL,
         enemy_amount=6,
         enemy_health=200,
         enemy_speed=50,
@@ -61,7 +60,7 @@ class Difficulties:
     )
 
     HARD = DifficultySettings(
-        difficulty_value=Difficulty.HARD,
+        difficulty_value=DifficultyEnum.HARD,
         enemy_amount=12,
         enemy_health=200,
         enemy_speed=75,
@@ -74,7 +73,7 @@ class Difficulties:
     )
 
     VERY_HARD = DifficultySettings(
-        difficulty_value=Difficulty.VERY_HARD,
+        difficulty_value=DifficultyEnum.VERY_HARD,
         enemy_amount=12,
         enemy_health=300,
         enemy_speed=75,
@@ -87,12 +86,12 @@ class Difficulties:
     )
 
     @staticmethod
-    def get(difficulty: Difficulty) -> DifficultySettings:
-        if difficulty == Difficulty.EASY:
+    def get(difficulty: DifficultyEnum) -> DifficultySettings:
+        if difficulty == DifficultyEnum.EASY:
             return Difficulties.EASY
-        elif difficulty == Difficulty.NORMAL:
+        elif difficulty == DifficultyEnum.NORMAL:
             return Difficulties.NORMAL
-        elif difficulty == Difficulty.HARD:
+        elif difficulty == DifficultyEnum.HARD:
             return Difficulties.HARD
         else:
             return Difficulties.VERY_HARD

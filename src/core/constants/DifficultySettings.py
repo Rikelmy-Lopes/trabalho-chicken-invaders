@@ -1,16 +1,9 @@
-from enum import Enum
-
-class Difficulty(Enum):
-    EASY = 1
-    NORMAL = 2
-    HARD = 3
-    VERY_HARD = 4
-
+from core.enums.DifficultyEnum import DifficultyEnum
 
 class DifficultySettings:
     def __init__(
         self,
-        difficulty_value: Difficulty,
+        difficulty_value: DifficultyEnum,
         enemy_amount: int,
         enemy_health: int,
         enemy_speed: int,

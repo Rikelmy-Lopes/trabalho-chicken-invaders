@@ -3,7 +3,7 @@
 import pygame
 from pygame.event import Event
 from core.constants.constants import Settings, AssetsPaths
-from core.SceneEnum import SceneEnum
+from core.enums.SceneEnum import SceneEnum
 from core.scenes.Scene import Scene
 from pygame import Surface
 from pygame.time import Clock

@@ -1,6 +1,6 @@
 from core.constants.constants import Difficulties
-from core.Difficulty import Difficulty
-from core.SceneEnum import SceneEnum
+from core.enums.DifficultyEnum import DifficultyEnum
+from core.enums.SceneEnum import SceneEnum
 
 
 
@@ -20,7 +20,7 @@ class _GameState:
         return cls._instance
 
 
-    def update_difficulty(self, difficulty: Difficulty):
+    def update_difficulty(self, difficulty: DifficultyEnum):
         self.difficulty = Difficulties.get(difficulty)
     
     def increase_score(self, score: int):

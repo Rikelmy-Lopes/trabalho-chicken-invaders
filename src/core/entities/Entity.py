@@ -12,7 +12,7 @@ class Entity(Sprite):
             self, 
             x: int, 
             y: int, 
-            image_path: str = None, 
+            image_path: str | None = None, 
             scale_factor: float = 1, 
             color: Tuple[int, int, int] = (255, 0, 0)
         ):

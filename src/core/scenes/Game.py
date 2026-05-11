@@ -12,9 +12,9 @@ from pygame.event import Event
 from pygame.mixer import Sound
 
 from core.constants.constants import AssetsPaths, Settings
-from core.SceneEnum import SceneEnum
 from core.entities.Enemy import Enemy
 from core.entities.Player import Player
+from core.enums.SceneEnum import SceneEnum
 from core.scenes.Scene import Scene
 from core.state.GameState import GAME_STATE
 from core.utils.utils import fps_counter
